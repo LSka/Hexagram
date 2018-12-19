@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
+#include "brick.hpp"
 
 class ofApp : public ofBaseApp{
 	
@@ -22,13 +23,10 @@ public:
 	void gotMessage(ofMessage msg);
 	
     bool bFill;
-    bool bWireframe;
-    bool bDrawNormals;
-    bool bDrawAxes;
-    bool bDrawLights;
+    bool rest;
+    bool explode;
     bool bHelpText;
     bool bMousePressed;
-    bool bSplitFaces;
     
     ofImage texture1;
     ofImage texture2;
@@ -41,11 +39,13 @@ public:
     float planeWidth;
     float planeHeight;
     
+    float r;
+    float velocity;
+    
     ofVideoPlayer bgMovie;
     
-    vector<ofPlanePrimitive> planes;
-    vector<ofPlanePrimitive> planesLeft;
-    vector<ofPlanePrimitive> planesRight;
+    Brick bricks[3][6];
+    ofVec3f startPositions[3][6];
     
     ofPlanePrimitive bgPlane;
 
@@ -55,12 +55,6 @@ public:
     ofLight pointLight2;
     ofLight pointLight3;
     ofMaterial material;
-    
-    // place to store the sides of the box //
-    ofVboMesh boxSides[ofBoxPrimitive::SIDES_TOTAL];
-    ofVboMesh deformPlane;
-    ofVboMesh topCap, bottomCap, body;
-    vector<ofMeshFace> triangles;
     
 	ofCamera cam;
 };

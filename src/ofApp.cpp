@@ -8,11 +8,12 @@ void ofApp::setup(){
 
     // GL_REPEAT for texture wrap only works with NON-ARB textures //
     ofDisableArbTex();
-    texture1.load("Anigre_pxr128.tif");
-    texture1.getTexture().setTextureWrap( GL_REPEAT, GL_REPEAT );
+    //texture1.load("wood.tif");
+    //texture1.getTexture().setTextureWrap( GL_REPEAT, GL_REPEAT );
 
     bFill       = true;
     bHelpText   = true;
+    rest        = true;
 
     width     = ofGetWidth() * .12;
     height    = ofGetHeight() * .12;
@@ -22,19 +23,35 @@ void ofApp::setup(){
     
     planesNumber = 6;
     
-    planes.resize(planesNumber);
-    planesLeft.resize(planesNumber);
-    planesRight.resize(planesNumber);
+    float screenWidth = ofGetWidth();
+    float screenHeight = ofGetHeight();
+    float d = screenHeight / planesNumber;
+    float startPosition = -screenHeight*0.54;
     
     
     
-    for (int i = 0; i < planesNumber; i++){
-        planes[i].set( planeWidth, planeHeight );
-        planesLeft[i].set( planeWidth, planeHeight );
-        planesRight[i].set( planeWidth, planeHeight );
+    for (int i = 0; i < 3; i++){
+        for (int j = 0; j < planesNumber; j++){
+        
+
+        bricks[i][j].brickWidth = planeWidth;
+        bricks[i][j].brickHeight = planeHeight;
+        
+            switch(i){
+                case 0 : startPositions[0][j] = ofVec3f(-planeWidth, (startPosition) + d * j + height, 0);
+                    ofLog() << startPositions[0][j];
+                    break;
+                case 1 : startPositions[1][j] = ofVec3f(0, (startPosition) + d * j + height, 0);
+                    break;
+                case 2 : startPositions[2][j] = ofVec3f(planeWidth, (startPosition) + d * j + height, 0);
+                    break;
+            }
+            bricks[i][j].position = startPositions[i][j];
+            bricks[i][j].setup();
+        }
     }
     
-    bgPlane.set(ofGetWidth(),ofGetHeight());
+    bgPlane.set(screenWidth,screenWidth);
 
     ofSetSmoothLighting(true);
     pointLight.setDiffuseColor( ofFloatColor(.85, .85, .55) );
@@ -42,10 +59,10 @@ void ofApp::setup(){
 
 
     // shininess is a value between 0 - 128, 128 being the most shiny //
-    material.setShininess( 90 );
+    material.setShininess( 60 );
     // the light highlight of the material //
-    material.setSpecularColor(ofColor(255, 255, 255, 255));
-    
+    material.setSpecularColor(ofColor(63, 63, 63, 63));
+    material.setDiffuseColor(ofColor(0,0,0));
     pointLight.setPosition((ofGetWidth()*.5), ofGetHeight()/2, 500);
 
 
@@ -53,13 +70,43 @@ void ofApp::setup(){
     bgMovie.setLoopState(OF_LOOP_NORMAL);
     bgMovie.play();
   */
+    
+    cam.setGlobalPosition({ 0,0,cam.getImagePlaneDistance(ofGetCurrentViewport()) });
+    cam.rotateDeg(90,0,0,0);
 }
 
 //--------------------------------------------------------------
 void ofApp::update() {
-
+    
+    
+    float spinX = 0.1;
+    r += spinX;
+    
+    
    // bgMovie.update();
 	//ofSetWindowTitle("Framerate: "+ofToString(ofGetFrameRate(), 0));
+    
+
+    
+    for (int i = 0; i < 3; i++){
+        for (int j = 0; j < planesNumber; j++){
+            
+            if (rest){
+                bricks[i][j].acc = 0;
+                bricks[i][j].rotationX = r;
+                bricks[i][j].rotationX = 0;
+            }
+            
+            else if (explode){
+                float a = 1;
+                bricks[i][j].acc = a;
+                bricks[i][j].rotationX = bricks[i][j].position.distance(startPositions[i][j]);
+            }
+            
+            bricks[i][j].update();
+
+        }
+    }
     
     pointLight.setPosition((sin(ofGetElapsedTimef()*0.5))*ofGetWidth(), ofGetHeight()/1.5, 500);
 
@@ -71,11 +118,11 @@ void ofApp::draw() {
     float screenWidth = ofGetWidth();
     float screenHeight = ofGetHeight();
     float d = screenHeight / planesNumber;
-    float startPosition = -screenHeight*0.51;
 
-    float spinX = (0.25);
 
-	cam.setGlobalPosition({ 0,0,cam.getImagePlaneDistance(ofGetCurrentViewport()) });
+    //r = sin(r);
+
+	//cam.setGlobalPosition({ 0,0,cam.getImagePlaneDistance(ofGetCurrentViewport()) });
 	cam.begin();
 
 	ofEnableDepthTest();
@@ -84,7 +131,7 @@ void ofApp::draw() {
 	pointLight.enable();
 
     
-    bgPlane.setPosition(0,0,-10);
+    bgPlane.setPosition(0,0,-planeWidth);
   //  bgMovie.getTexture().bind();
     bgPlane.draw();
   //  bgMovie.getTexture().unbind();
@@ -92,30 +139,17 @@ void ofApp::draw() {
     material.begin();
     ofFill();
     
-    texture1.getTexture().bind();
-    for (int j = 0; j < planesNumber; j++){
-        
-        planes[j].setPosition(      0, (startPosition) + d * j + height, 0);
-        planes[j].rotateDeg(spinX, 1.0, 0.0, 0.0);
-
-        planesLeft[j].setPosition(      -planeWidth, (startPosition) + d * j + height, 0);
-        planesLeft[j].rotateDeg(spinX, 1.0, 0.0, 0.0);
-        
-        planesRight[j].setPosition(      planeWidth, (startPosition) + d * j + height, 0);
-        planesRight[j].rotateDeg(spinX, 1.0, 0.0, 0.0);
-
-
-        
-
-            planes[j].draw();
-            planesRight[j].draw();
-            planesLeft[j].draw();
-        
-        
-
+    //texture1.getTexture().bind();
+    for (int i = 0; i < 3; i++){
+        for (int j = 0; j < planesNumber; j++){
+            
+            bricks[i][j].draw();
+            
+        }
     }
+
     material.end();
-    texture1.getTexture().unbind();
+    //texture1.getTexture().unbind();
 
     
 	ofDisableLighting();
@@ -130,6 +164,7 @@ void ofApp::draw() {
     if(bHelpText) {
         stringstream ss;
         ss << "FPS: " << ofToString(ofGetFrameRate(),0) << endl << endl;
+        ss << "Rotation: " << ofToString(r,2) << endl << endl;
         ofDrawBitmapStringHighlight(ss.str().c_str(), 20, 20);
     }
 
@@ -143,8 +178,12 @@ void ofApp::keyPressed(int key) {
         case 'h':
             bHelpText=!bHelpText;
             break;
-	}
-
+	
+        case 'e':
+            rest = !rest;
+            explode = !explode;
+            break;
+    }
 
     //
 

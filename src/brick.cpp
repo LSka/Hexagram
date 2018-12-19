@@ -21,8 +21,6 @@ void Brick::setup(){
 }
 
 void Brick::update(){
-    //wiggle = ofRandom(-1,1);
-    //acc *= wiggle;
     velocity += acc;
     velocity *= direction;
     position += velocity;

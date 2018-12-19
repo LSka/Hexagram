@@ -78,6 +78,8 @@ void ofApp::setup(){
 //--------------------------------------------------------------
 void ofApp::update() {
     
+    force = 10;
+    
 
     
     
@@ -88,22 +90,46 @@ void ofApp::update() {
    // bgMovie.update();
 	//ofSetWindowTitle("Framerate: "+ofToString(ofGetFrameRate(), 0));
     
-
-    
+    int counter = 0;
     for (int i = 0; i < 3; i++){
         for (int j = 0; j < planesNumber; j++){
             
             if (rest){
-                bricks[i][j].acc = 0;
+                bricks[i][j].position = startPositions[i][j];
+                force = 0;
                 bricks[i][j].rotationX = r;
                 bricks[i][j].rotationX = 0;
             }
-            
             else if (explode){
-                float a = 10;
-                bricks[i][j].acc = a;
-                bricks[i][j].rotationX = bricks[i][j].position.distance(startPositions[i][j]);
+                if (!allOut()){
+                    bricks[i][j].acc = force;
+                }
+                else if (allOut()){
+                    explode = FALSE;
+                    bricks[i][j].velocity = ofVec3f(0,0,0);
+                    bricks[i][j].acc = 0;
+                    force = 0;
+                }
             }
+            
+            else if (!explode){
+                bricks[i][j].interpolator = ofClamp(bricks[i][j].interpolator,0,1) ;
+                bricks[i][j].position = bricks[i][j].position.interpolate(startPositions[i][j], bricks[i][j].interpolator);
+                if (bricks[i][j].interpolator >= 1){
+                    counter += 1;
+                }
+                
+                else counter += 0;
+                
+                bricks[i][j].interpolator += 0.01;
+            }
+            
+            if (counter == 18){
+                rest = TRUE;
+            }
+            
+            float distance = bricks[i][j].position.distance(startPositions[i][j]);
+            bricks[i][j].rotationX = distance;
             
             bricks[i][j].update();
 
@@ -163,9 +189,10 @@ void ofApp::draw() {
     if(bHelpText) {
         stringstream ss;
         ss << "FPS: " << ofToString(ofGetFrameRate(),0) << endl << endl;
-        ss << "Rotation: " << ofToString(r,2) << endl << endl;
         if (allOut()) ss << "ALL OUT"<< endl << endl;
         else ss << "IN" << endl << endl;
+        ss << "REST: " << rest << endl << endl;
+        ss << "EXPLODE: " << explode << endl << endl;
         ofDrawBitmapStringHighlight(ss.str().c_str(), 20, 20);
     }
 

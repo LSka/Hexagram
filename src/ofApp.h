@@ -36,15 +36,12 @@ public:
     
     float width;
     float height;
-    
     float planeWidth;
     float planeHeight;
-    
     float r;
     float velocity;
-    
-    float tx;
-    float ty;
+    float force;
+    float l;
     
     ofVideoPlayer bgMovie;
     

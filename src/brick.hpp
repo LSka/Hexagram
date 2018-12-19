@@ -26,6 +26,7 @@ public:
     float brickHeight;
     float rotationX;
     float rotationY;
+    float interpolator;
     
     ofPlanePrimitive brickPlane;
     

@@ -27,6 +27,7 @@ public:
     bool explode;
     bool bHelpText;
     bool bMousePressed;
+    bool allOut();
     
     ofImage texture1;
     ofImage texture2;
@@ -42,12 +43,17 @@ public:
     float r;
     float velocity;
     
+    float tx;
+    float ty;
+    
     ofVideoPlayer bgMovie;
     
     Brick bricks[3][6];
     ofVec3f startPositions[3][6];
     
     ofPlanePrimitive bgPlane;
+    ofPlanePrimitive testPlane;
+    
 
     ofBoxPrimitive box;
     

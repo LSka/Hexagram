@@ -39,7 +39,6 @@ void ofApp::setup(){
         
             switch(i){
                 case 0 : startPositions[0][j] = ofVec3f(-planeWidth, (startPosition) + d * j + height, 0);
-                    ofLog() << startPositions[0][j];
                     break;
                 case 1 : startPositions[1][j] = ofVec3f(0, (startPosition) + d * j + height, 0);
                     break;
@@ -51,7 +50,7 @@ void ofApp::setup(){
         }
     }
     
-    bgPlane.set(screenWidth,screenWidth);
+    bgPlane.set(screenWidth+430,screenHeight+240);
 
     ofSetSmoothLighting(true);
     pointLight.setDiffuseColor( ofFloatColor(.85, .85, .55) );
@@ -73,10 +72,13 @@ void ofApp::setup(){
     
     cam.setGlobalPosition({ 0,0,cam.getImagePlaneDistance(ofGetCurrentViewport()) });
     cam.rotateDeg(90,0,0,0);
+    
 }
 
 //--------------------------------------------------------------
 void ofApp::update() {
+    
+
     
     
     float spinX = 0.1;
@@ -98,7 +100,7 @@ void ofApp::update() {
             }
             
             else if (explode){
-                float a = 1;
+                float a = 10;
                 bricks[i][j].acc = a;
                 bricks[i][j].rotationX = bricks[i][j].position.distance(startPositions[i][j]);
             }
@@ -120,9 +122,6 @@ void ofApp::draw() {
     float d = screenHeight / planesNumber;
 
 
-    //r = sin(r);
-
-	//cam.setGlobalPosition({ 0,0,cam.getImagePlaneDistance(ofGetCurrentViewport()) });
 	cam.begin();
 
 	ofEnableDepthTest();
@@ -165,6 +164,8 @@ void ofApp::draw() {
         stringstream ss;
         ss << "FPS: " << ofToString(ofGetFrameRate(),0) << endl << endl;
         ss << "Rotation: " << ofToString(r,2) << endl << endl;
+        if (allOut()) ss << "ALL OUT"<< endl << endl;
+        else ss << "IN" << endl << endl;
         ofDrawBitmapStringHighlight(ss.str().c_str(), 20, 20);
     }
 
@@ -237,4 +238,24 @@ void ofApp::gotMessage(ofMessage msg){
 //--------------------------------------------------------------
 void ofApp::dragEvent(ofDragInfo dragInfo){
 
+}
+
+bool ofApp::allOut(){
+    bool out = FALSE;
+    int c = 0;
+    
+    for (int i = 0; i < 3; i++){
+        for (int j = 0; j< planesNumber; j++){
+            float x = bricks[i][j].position.x;
+            float y = bricks[i][j].position.y;
+            if (x > 800 || x < -800 || y > 500 || y < -500){
+                c++;
+            }
+        }
+    }
+    if (c == 18){
+        out = TRUE;
+    }
+    else out = FALSE;
+    return out;
 }

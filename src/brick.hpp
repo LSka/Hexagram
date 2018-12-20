@@ -16,6 +16,7 @@ public:
     void setup();
     void update();
     void draw();
+    void setDirection();
     
     ofVec3f position;
     ofVec3f velocity;

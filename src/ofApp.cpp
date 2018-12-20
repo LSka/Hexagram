@@ -89,7 +89,6 @@ void ofApp::setup(){
     ofxOscMessage m;
     m.setAddress("/state");
     m.addStringArg("system initialized");
-    
     sender.sendMessage(m);
     
 }
@@ -107,28 +106,30 @@ void ofApp::update() {
         sender.sendMessage(heartbeat);
         oldTime = time;
     }
-    
-    if (receiver.hasWaitingMessages()){
-        ofxOscMessage receivedMessage;
-        receiver.getNextMessage(receivedMessage);
-        string addr = receivedMessage.getAddress();
-        
-        if (addr.compare("/force") == 0){
-            force = receivedMessage.getArgAsFloat(0);
-            state = EXPLODE;
-            //ofLog(OF_LOG_NOTICE, ofToString(receivedForce));
-            
-            
-        }
-    }
-
-    
-    
+   
    // bgMovie.update();
 	//ofSetWindowTitle("Framerate: "+ofToString(ofGetFrameRate(), 0));
     
 switch (state) {
     case REST: {
+        
+        if (receiver.hasWaitingMessages()){
+            ofxOscMessage receivedMessage;
+            receiver.getNextMessage(receivedMessage);
+            string addr = receivedMessage.getAddress();
+            
+            if (addr.compare("/force") == 0){
+                force = receivedMessage.getArgAsFloat(0);
+                state = EXPLODE;
+                ofxOscMessage mess;
+                mess.setAddress("/state");
+                mess.addIntArg(state);
+                sender.sendMessage(mess);
+                //ofLog(OF_LOG_NOTICE, ofToString(receivedForce));
+                
+                
+            }
+        }
                 float spinX = 0.1;
                 r += spinX;
                 for (int i = 0; i < 3; i++){
@@ -169,6 +170,10 @@ switch (state) {
                     }
                             
                     state = COMPOSE;
+                    ofxOscMessage mess;
+                    mess.setAddress("/state");
+                    mess.addIntArg(state);
+                    sender.sendMessage(mess);
                 }
         break;
     }
@@ -189,8 +194,19 @@ switch (state) {
                // ofLog(OF_LOG_NOTICE,ofToString(interpols));
                 
                 if (interpols >= 18){
+                    for (int i = 0; i < 3; i++){
+                        for (int j = 0; j < planesNumber; j++){
+                            bricks[i][j].setDirection();
+                            ofLog(OF_LOG_NOTICE,ofToString(bricks[i][j].direction));
+                        }
+                    }
                     r = 0;
                     state = REST;
+                    ofxOscMessage mess;
+                    mess.setAddress("/state");
+                    mess.addIntArg(state);
+                    sender.sendMessage(mess);
+                    
                 }
         break;
     }

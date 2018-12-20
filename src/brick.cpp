@@ -14,8 +14,7 @@ void Brick::setup(){
     rotationX = 0;
     rotationY = 0;
     acc = 0;
-    direction.x = chooseDirection();
-    direction.y = chooseDirection();
+    setDirection();
     brickPlane.setWidth(brickWidth);
     brickPlane.setHeight(brickHeight);
     visible = TRUE;
@@ -34,6 +33,11 @@ void Brick::draw(){
     if (visible){
         brickPlane.draw();
     }
+}
+
+void Brick::setDirection(){
+    direction.x = chooseDirection();
+    direction.y = chooseDirection();
 }
 
 

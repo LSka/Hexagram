@@ -84,7 +84,7 @@ void ofApp::setup(){
     
     
     receiver.setup(50000);
-    sender.setup("localhost",60000);
+    sender.setup("192.168.1.255",60000);
     
     ofxOscMessage m;
     m.setAddress("/state");
@@ -107,6 +107,20 @@ void ofApp::update() {
         sender.sendMessage(heartbeat);
         oldTime = time;
     }
+    
+    if (receiver.hasWaitingMessages()){
+        ofxOscMessage receivedMessage;
+        receiver.getNextMessage(receivedMessage);
+        string addr = receivedMessage.getAddress();
+        
+        if (addr.compare("/force") == 0){
+            force = receivedMessage.getArgAsFloat(0);
+            state = EXPLODE;
+            //ofLog(OF_LOG_NOTICE, ofToString(receivedForce));
+            
+            
+        }
+    }
 
     
     
@@ -117,9 +131,9 @@ switch (state) {
     case REST: {
                 float spinX = 0.1;
                 r += spinX;
-                force = 0;
                 for (int i = 0; i < 3; i++){
                     for (int j = 0; j < planesNumber; j++){
+                bricks[i][j].acc = 0;
                 bricks[i][j].position = startPositions[i][j];
                 
                 bricks[i][j].rotationX = r;
@@ -129,7 +143,6 @@ switch (state) {
     }
         
     case EXPLODE: {
-                force = 10;
                 for (int i = 0; i < 3; i++){
                     for (int j = 0; j < planesNumber; j++){
                         float distance = bricks[i][j].position.distance(startPositions[i][j]);
@@ -140,10 +153,9 @@ switch (state) {
             
 
                 if (allOut()){
-                    force = 0;
                     for (int i = 0; i < 3; i++){
                         for (int j = 0; j < planesNumber; j++){
-                            bricks[i][j].acc = force;
+                            bricks[i][j].acc = 0;
                             bricks[i][j].velocity = ofVec3f(0,0,0);
                             bricks[i][j].rotationX = 0;
                             bricks[i][j].interpolator = 0;
@@ -174,7 +186,7 @@ switch (state) {
                         interpols += bricks[i][j].interpolator;
                     }
                 }
-                ofLog(OF_LOG_NOTICE,ofToString(interpols));
+               // ofLog(OF_LOG_NOTICE,ofToString(interpols));
                 
                 if (interpols >= 18){
                     r = 0;
@@ -254,8 +266,7 @@ void ofApp::draw() {
         ss << "FPS: " << ofToString(ofGetFrameRate(),0) << endl << endl;
         if (allOut()) ss << "ALL OUT"<< endl << endl;
         else ss << "IN" << endl << endl;
-        ss << "REST: " << rest << endl << endl;
-        ss << "EXPLODE: " << explode << endl << endl;
+        ss << "STATE: " << state << endl << endl;
         ss << counter << endl << endl;
         ofDrawBitmapStringHighlight(ss.str().c_str(), 20, 20);
     }
@@ -272,6 +283,7 @@ void ofApp::keyPressed(int key) {
             break;
 	
         case 'e':
+            force = 5;
             state = EXPLODE;
             break;
     }

@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include "brick.hpp"
+#include "ofxOsc.h"
 
 class ofApp : public ofBaseApp{
 	
@@ -44,6 +45,7 @@ public:
     float velocity;
     float force;
     float l;
+    float oldTime;
     
     ofVideoPlayer bgMovie;
     
@@ -59,7 +61,13 @@ public:
     ofLight pointLight;
     ofLight pointLight2;
     ofLight pointLight3;
-    ofMaterial material;
+    
+    ofMaterial brickMaterial;
+    ofMaterial bgMaterial;
     
 	ofCamera cam;
+    
+    
+    ofxOscReceiver receiver;
+    ofxOscSender sender;
 };

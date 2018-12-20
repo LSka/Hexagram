@@ -30,5 +30,7 @@ void Brick::update(){
 }
 
 void Brick::draw(){
-    brickPlane.draw();
+    if (visible){
+        brickPlane.draw();
+    }
 }

@@ -90,7 +90,7 @@ void ofApp::update() {
    // bgMovie.update();
 	//ofSetWindowTitle("Framerate: "+ofToString(ofGetFrameRate(), 0));
     
-    int counter = 0;
+    
     for (int i = 0; i < 3; i++){
         for (int j = 0; j < planesNumber; j++){
             
@@ -98,38 +98,30 @@ void ofApp::update() {
                 bricks[i][j].position = startPositions[i][j];
                 force = 0;
                 bricks[i][j].rotationX = r;
-                bricks[i][j].rotationX = 0;
             }
             else if (explode){
+                float distance = bricks[i][j].position.distance(startPositions[i][j]);
+                bricks[i][j].rotationX = distance;
                 if (!allOut()){
                     bricks[i][j].acc = force;
                 }
                 else if (allOut()){
                     explode = FALSE;
                     bricks[i][j].velocity = ofVec3f(0,0,0);
-                    bricks[i][j].acc = 0;
-                    force = 0;
+                    if (i == 1) {
+                        float ra = ofRandom(1);
+                        if (ra >= 0.5) bricks[i][j].visible = TRUE;
+                        else bricks[i][j].visible = FALSE;
+                    }
                 }
             }
             
             else if (!explode){
-                bricks[i][j].interpolator = ofClamp(bricks[i][j].interpolator,0,1) ;
-                bricks[i][j].position = bricks[i][j].position.interpolate(startPositions[i][j], bricks[i][j].interpolator);
-                if (bricks[i][j].interpolator >= 1){
-                    counter += 1;
-                }
-                
-                else counter += 0;
-                
-                bricks[i][j].interpolator += 0.01;
             }
             
-            if (counter == 18){
-                rest = TRUE;
+            else{
+
             }
-            
-            float distance = bricks[i][j].position.distance(startPositions[i][j]);
-            bricks[i][j].rotationX = distance;
             
             bricks[i][j].update();
 
@@ -193,6 +185,7 @@ void ofApp::draw() {
         else ss << "IN" << endl << endl;
         ss << "REST: " << rest << endl << endl;
         ss << "EXPLODE: " << explode << endl << endl;
+        ss << counter << endl << endl;
         ofDrawBitmapStringHighlight(ss.str().c_str(), 20, 20);
     }
 

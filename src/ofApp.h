@@ -33,6 +33,7 @@ public:
     ofImage texture2;
     int mode;
     int planesNumber;
+    int counter;
     
     float width;
     float height;

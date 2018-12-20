@@ -24,12 +24,12 @@ public:
 	void gotMessage(ofMessage msg);
 	
     bool bFill;
-    bool rest;
-    bool explode;
     bool bHelpText;
     bool bMousePressed;
     bool allOut();
-    bool compose;
+    
+    enum State {REST, EXPLODE, COMPOSE};
+    enum State state;
     
     ofImage texture1;
     ofImage texture2;

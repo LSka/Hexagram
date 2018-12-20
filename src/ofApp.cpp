@@ -13,8 +13,7 @@ void ofApp::setup(){
 
     bFill       = true;
     bHelpText   = false;
-    rest        = true;
-
+    state       = REST;
     width     = ofGetWidth() * .12;
     height    = ofGetHeight() * .12;
     
@@ -114,8 +113,8 @@ void ofApp::update() {
    // bgMovie.update();
 	//ofSetWindowTitle("Framerate: "+ofToString(ofGetFrameRate(), 0));
     
-    
-            if (rest){
+switch (state) {
+    case REST: {
                 float spinX = 0.1;
                 r += spinX;
                 force = 0;
@@ -126,8 +125,10 @@ void ofApp::update() {
                 bricks[i][j].rotationX = r;
                     }
                 }
-            }
-            if (explode){
+        break;
+    }
+        
+    case EXPLODE: {
                 force = 10;
                 for (int i = 0; i < 3; i++){
                     for (int j = 0; j < planesNumber; j++){
@@ -136,7 +137,7 @@ void ofApp::update() {
                         bricks[i][j].acc = force;
                     }
                 }
-            }
+            
 
                 if (allOut()){
                     force = 0;
@@ -155,12 +156,12 @@ void ofApp::update() {
                         }
                     }
                             
-                            explode = FALSE;
-                            compose = TRUE;
-                        }
-    
+                    state = COMPOSE;
+                }
+        break;
+    }
             
-            if (compose){
+    case COMPOSE: {
                 force = 10;
                 float interpols = 0;
                 for (int i = 0; i < 3; i++){
@@ -177,17 +178,19 @@ void ofApp::update() {
                 
                 if (interpols >= 18){
                     r = 0;
-                    compose = FALSE;
-                    rest = TRUE;
+                    state = REST;
                 }
-            }
+        break;
+    }
+}
+        
     
     for (int i = 0; i < 3; i++){
         for (int j = 0; j < planesNumber; j++){
             bricks[i][j].update();
         }
     }
-
+    
     
     //pointLight.setPosition((sin(ofGetElapsedTimef()*0.5))*ofGetWidth(), ofGetHeight()/1.5, 500);
     pointLight2.setPosition(cos(ofGetElapsedTimef())*ofGetWidth(), 0, 100);
@@ -269,8 +272,7 @@ void ofApp::keyPressed(int key) {
             break;
 	
         case 'e':
-            rest = !rest;
-            explode = !explode;
+            state = EXPLODE;
             break;
     }
 

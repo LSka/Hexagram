@@ -154,6 +154,7 @@ switch (state) {
             
 
                 if (allOut()){
+                    std::bitset<6> hexa;
                     for (int i = 0; i < 3; i++){
                         for (int j = 0; j < planesNumber; j++){
                             bricks[i][j].acc = 0;
@@ -163,11 +164,27 @@ switch (state) {
                             
                             if (i == 1) {
                                 float ra = ofRandom(0,1);
-                                if (ra >= 0.5) bricks[i][j].visible = TRUE;
-                                else bricks[i][j].visible = FALSE;
+                                if (ra >= 0.5){
+                                    bricks[i][j].visible = TRUE;
+                                    hexa.set(j);
+                                    
+                                }
+                                else{
+                                    bricks[i][j].visible = FALSE;
+                                    hexa.set(j,0);
+                                }
+                                
                             }
                         }
                     }
+                    
+                    int hexaId = int(hexa.to_ulong());
+                    //cout<< hexaId << '\n';
+                    
+                    ofxOscMessage hexagramId;
+                    hexagramId.setAddress("/hexagram");
+                    hexagramId.addIntArg(hexaId);
+                    sender.sendMessage(hexagramId);
                             
                     state = COMPOSE;
                     ofxOscMessage mess;
@@ -197,7 +214,7 @@ switch (state) {
                     for (int i = 0; i < 3; i++){
                         for (int j = 0; j < planesNumber; j++){
                             bricks[i][j].setDirection();
-                            ofLog(OF_LOG_NOTICE,ofToString(bricks[i][j].direction));
+                           // ofLog(OF_LOG_NOTICE,ofToString(bricks[i][j].direction));
                         }
                     }
                     r = 0;

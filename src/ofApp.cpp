@@ -77,56 +77,87 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update() {
-    
-    force = 10;
-    
 
-    
-    
-    float spinX = 0.1;
-    r += spinX;
     
     
    // bgMovie.update();
 	//ofSetWindowTitle("Framerate: "+ofToString(ofGetFrameRate(), 0));
     
     
-    for (int i = 0; i < 3; i++){
-        for (int j = 0; j < planesNumber; j++){
-            
             if (rest){
-                bricks[i][j].position = startPositions[i][j];
+                float spinX = 0.1;
+                r += spinX;
                 force = 0;
+                for (int i = 0; i < 3; i++){
+                    for (int j = 0; j < planesNumber; j++){
+                bricks[i][j].position = startPositions[i][j];
+                
                 bricks[i][j].rotationX = r;
-            }
-            else if (explode){
-                float distance = bricks[i][j].position.distance(startPositions[i][j]);
-                bricks[i][j].rotationX = distance;
-                if (!allOut()){
-                    bricks[i][j].acc = force;
-                }
-                else if (allOut()){
-                    explode = FALSE;
-                    bricks[i][j].velocity = ofVec3f(0,0,0);
-                    if (i == 1) {
-                        float ra = ofRandom(1);
-                        if (ra >= 0.5) bricks[i][j].visible = TRUE;
-                        else bricks[i][j].visible = FALSE;
                     }
                 }
             }
-            
-            else if (!explode){
+            if (explode){
+                force = 10;
+                for (int i = 0; i < 3; i++){
+                    for (int j = 0; j < planesNumber; j++){
+                        float distance = bricks[i][j].position.distance(startPositions[i][j]);
+                        bricks[i][j].rotationX = distance;
+                        bricks[i][j].acc = force;
+                    }
+                }
             }
-            
-            else{
 
-            }
+                if (allOut()){
+                    force = 0;
+                    for (int i = 0; i < 3; i++){
+                        for (int j = 0; j < planesNumber; j++){
+                            bricks[i][j].acc = force;
+                            bricks[i][j].velocity = ofVec3f(0,0,0);
+                            bricks[i][j].rotationX = 0;
+                            bricks[i][j].interpolator = 0;
+                            
+                            if (i == 1) {
+                                float ra = ofRandom(0,1);
+                                if (ra >= 0.5) bricks[i][j].visible = TRUE;
+                                else bricks[i][j].visible = FALSE;
+                            }
+                        }
+                    }
+                            
+                            explode = FALSE;
+                            compose = TRUE;
+                        }
+    
             
+            if (compose){
+                float interpols = 0;
+                for (int i = 0; i < 3; i++){
+                    for (int j = 0; j < planesNumber; j++){
+                        bricks[i][j].interpolator += 0.01;
+                        bricks[i][j].position = bricks[i][j].position.interpolate(startPositions[i][j],bricks[i][j].interpolator);
+                        force = 0;
+                        bricks[i][j].velocity = ofVec3f(0,0,0);
+                        bricks[i][j].acc = force;
+                        float distance = bricks[i][j].position.distance(startPositions[i][j]);
+                        bricks[i][j].rotationX = distance;
+                        interpols += bricks[i][j].interpolator;
+                    }
+                }
+                ofLog(OF_LOG_NOTICE,ofToString(interpols));
+                
+                if (interpols >= 18.0){
+                    r = 0;
+                    compose = FALSE;
+                    rest = TRUE;
+                }
+            }
+    
+    for (int i = 0; i < 3; i++){
+        for (int j = 0; j < planesNumber; j++){
             bricks[i][j].update();
-
         }
     }
+
     
     pointLight.setPosition((sin(ofGetElapsedTimef()*0.5))*ofGetWidth(), ofGetHeight()/1.5, 500);
 

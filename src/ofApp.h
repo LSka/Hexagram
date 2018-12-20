@@ -28,6 +28,7 @@ public:
     bool bHelpText;
     bool bMousePressed;
     bool allOut();
+    bool compose;
     
     ofImage texture1;
     ofImage texture2;

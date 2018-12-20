@@ -18,6 +18,7 @@ void Brick::setup(){
     direction.y = ofRandom(-1,1);
     brickPlane.setWidth(brickWidth);
     brickPlane.setHeight(brickHeight);
+    visible = TRUE;
 }
 
 void Brick::update(){

@@ -52,6 +52,7 @@
 		6B65E6930994CC4B2D2B8B33 /* OscPacketListener.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = OscPacketListener.h; path = ../../../addons/ofxOsc/libs/oscpack/src/osc/OscPacketListener.h; sourceTree = SOURCE_ROOT; };
 		7689F8A0F3D0B7635A8C3104 /* ofxOscArg.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ofxOscArg.h; path = ../../../addons/ofxOsc/src/ofxOscArg.h; sourceTree = SOURCE_ROOT; };
 		81967292BFC87A0144BD32C6 /* ofxOscSender.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = ofxOscSender.cpp; path = ../../../addons/ofxOsc/src/ofxOscSender.cpp; sourceTree = SOURCE_ROOT; };
+		81F5C4EE21CC163B00E1068F /* Hexagram_Debugger.maxpat */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Hexagram_Debugger.maxpat; sourceTree = SOURCE_ROOT; };
 		81FE520E21C957C000B77D0C /* brick.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = brick.cpp; sourceTree = "<group>"; };
 		81FE520F21C957C000B77D0C /* brick.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = brick.hpp; sourceTree = "<group>"; };
 		8B30E93FD3D3475EED522A0E /* ofxOscBundle.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ofxOscBundle.h; path = ../../../addons/ofxOsc/src/ofxOscBundle.h; sourceTree = SOURCE_ROOT; };
@@ -652,6 +653,7 @@
 			children = (
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
 				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
+				81F5C4EE21CC163B00E1068F /* Hexagram_Debugger.maxpat */,
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
 				81FE520E21C957C000B77D0C /* brick.cpp */,
 				81FE520F21C957C000B77D0C /* brick.hpp */,

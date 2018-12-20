@@ -27,6 +27,8 @@ void ofApp::setup(){
     float d = screenHeight / planesNumber;
     float startPosition = -screenHeight*0.54;
     
+    float zPos = -100;
+    
     
     
     for (int i = 0; i < 3; i++){
@@ -37,11 +39,11 @@ void ofApp::setup(){
         bricks[i][j].brickHeight = planeHeight;
         
             switch(i){
-                case 0 : startPositions[0][j] = ofVec3f(-planeWidth, (startPosition) + d * j + height, 0);
+                case 0 : startPositions[0][j] = ofVec3f(-planeWidth, (startPosition) + d * j + height, zPos);
                     break;
-                case 1 : startPositions[1][j] = ofVec3f(0, (startPosition) + d * j + height, 0);
+                case 1 : startPositions[1][j] = ofVec3f(0, (startPosition) + d * j + height, zPos);
                     break;
-                case 2 : startPositions[2][j] = ofVec3f(planeWidth, (startPosition) + d * j + height, 0);
+                case 2 : startPositions[2][j] = ofVec3f(planeWidth, (startPosition) + d * j + height, zPos);
                     break;
             }
             bricks[i][j].position = startPositions[i][j];

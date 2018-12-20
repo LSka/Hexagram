@@ -134,14 +134,13 @@ void ofApp::update() {
     
             
             if (compose){
+                force = 10;
                 float interpols = 0;
                 for (int i = 0; i < 3; i++){
                     for (int j = 0; j < planesNumber; j++){
-                        bricks[i][j].interpolator += 0.005;
+                        bricks[i][j].interpolator += 0.0001 * force;
                         bricks[i][j].position = bricks[i][j].position.interpolate(startPositions[i][j],bricks[i][j].interpolator);
-                        force = 0;
-                        bricks[i][j].velocity = ofVec3f(0,0,0);
-                        bricks[i][j].acc = force;
+                        
                         float distance = bricks[i][j].position.distance(startPositions[i][j]);
                         bricks[i][j].rotationX = distance;
                         interpols += bricks[i][j].interpolator;
@@ -149,7 +148,7 @@ void ofApp::update() {
                 }
                 ofLog(OF_LOG_NOTICE,ofToString(interpols));
                 
-                if (interpols >= 18.0){
+                if (interpols >= 18){
                     r = 0;
                     compose = FALSE;
                     rest = TRUE;

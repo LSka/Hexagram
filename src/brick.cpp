@@ -14,8 +14,8 @@ void Brick::setup(){
     rotationX = 0;
     rotationY = 0;
     acc = 0;
-    direction.x = ofRandom(-1,1);
-    direction.y = ofRandom(-1,1);
+    direction.x = chooseDirection();
+    direction.y = chooseDirection();
     brickPlane.setWidth(brickWidth);
     brickPlane.setHeight(brickHeight);
     visible = TRUE;
@@ -34,4 +34,13 @@ void Brick::draw(){
     if (visible){
         brickPlane.draw();
     }
+}
+
+
+float Brick::chooseDirection(){
+    float dir;
+    float d = ofRandom(1);
+    if (d >= .5) dir = ofRandom(.5,1);
+    else dir = ofRandom(-1,.5);
+    return dir;
 }

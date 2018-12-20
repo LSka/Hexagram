@@ -8,11 +8,11 @@ void ofApp::setup(){
 
     // GL_REPEAT for texture wrap only works with NON-ARB textures //
     ofDisableArbTex();
-    //texture1.load("wood.tif");
-    //texture1.getTexture().setTextureWrap( GL_REPEAT, GL_REPEAT );
+    texture1.load("paper.jpg");
+    texture1.getTexture().setTextureWrap( GL_REPEAT, GL_REPEAT );
 
     bFill       = true;
-    bHelpText   = true;
+    bHelpText   = false;
     rest        = true;
 
     width     = ofGetWidth() * .12;
@@ -55,6 +55,9 @@ void ofApp::setup(){
     ofSetSmoothLighting(true);
     pointLight.setDiffuseColor( ofFloatColor(.85, .85, .55) );
     pointLight.setSpecularColor( ofFloatColor(1.f, 1.f, 1.f));
+    
+    pointLight2.setDiffuseColor( ofFloatColor(.85, .85, .55) );
+    pointLight2.setSpecularColor( ofFloatColor(1.f, 1.f, 1.f));
 
 
     // shininess is a value between 0 - 128, 128 being the most shiny //
@@ -63,12 +66,13 @@ void ofApp::setup(){
     material.setSpecularColor(ofColor(63, 63, 63, 63));
     material.setDiffuseColor(ofColor(0,0,0));
     pointLight.setPosition((ofGetWidth()*.5), ofGetHeight()/2, 500);
-
+    pointLight2.setPosition(-(ofGetWidth()*.5), -ofGetHeight()/2, 500);
 
  /*   bgMovie.load("background.mp4");
     bgMovie.setLoopState(OF_LOOP_NORMAL);
     bgMovie.play();
   */
+    
     
     cam.setGlobalPosition({ 0,0,cam.getImagePlaneDistance(ofGetCurrentViewport()) });
     cam.rotateDeg(90,0,0,0);
@@ -133,7 +137,7 @@ void ofApp::update() {
                 float interpols = 0;
                 for (int i = 0; i < 3; i++){
                     for (int j = 0; j < planesNumber; j++){
-                        bricks[i][j].interpolator += 0.01;
+                        bricks[i][j].interpolator += 0.005;
                         bricks[i][j].position = bricks[i][j].position.interpolate(startPositions[i][j],bricks[i][j].interpolator);
                         force = 0;
                         bricks[i][j].velocity = ofVec3f(0,0,0);
@@ -159,7 +163,8 @@ void ofApp::update() {
     }
 
     
-    pointLight.setPosition((sin(ofGetElapsedTimef()*0.5))*ofGetWidth(), ofGetHeight()/1.5, 500);
+    //pointLight.setPosition((sin(ofGetElapsedTimef()*0.5))*ofGetWidth(), ofGetHeight()/1.5, 500);
+    //pointLight2.setPosition(cos(ofGetElapsedTimef())*ofGetWidth(), 0, 700);
 
 }
 
@@ -181,7 +186,9 @@ void ofApp::draw() {
     
     bgPlane.setPosition(0,0,-planeWidth);
   //  bgMovie.getTexture().bind();
+    texture1.bind();
     bgPlane.draw();
+    texture1.unbind();
   //  bgMovie.getTexture().unbind();
     
     material.begin();

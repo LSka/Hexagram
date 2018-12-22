@@ -26,7 +26,7 @@ void Brick::update(){
     velocity *= direction;
     position += velocity;
     brickPlane.setPosition(position);
-    brickPlane.setOrientation(glm::vec3(rotationX,rotationY,0));
+    brickPlane.setOrientation(glm::vec3(rotationX,rotationY,rotationZ));
     
 }
 

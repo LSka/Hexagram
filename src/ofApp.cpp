@@ -85,8 +85,8 @@ void ofApp::setup(){
     cam.rotateDeg(90,0,0,0);
     
     
-    receiver.setup(50000);
-    sender.setup("192.168.1.255",60000);
+    receiver.setup(5000);
+    sender.setup("localhost",6000);
     
     ofxOscMessage m;
     m.setAddress("/state");
@@ -133,13 +133,13 @@ switch (state) {
             }
         }
                 float spinX = 0.1;
-                r += spinX;
+                //r += spinX;
                 for (int i = 0; i < 3; i++){
                     for (int j = 0; j < planesNumber; j++){
                 bricks[i][j].acc = 0;
                 bricks[i][j].position = startPositions[i][j];
                 
-                bricks[i][j].rotationX = r;
+               // bricks[i][j].rotationX = r;
                     }
                 }
         break;
@@ -320,6 +320,10 @@ void ofApp::keyPressed(int key) {
         case 'e':
             force = 5;
             state = EXPLODE;
+            ofxOscMessage mess;
+            mess.setAddress("/state");
+            mess.addIntArg(state);
+            sender.sendMessage(mess);
             break;
     }
 

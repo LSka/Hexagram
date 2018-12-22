@@ -246,7 +246,7 @@ switch (state) {
             
     case COMPOSE: {
                 //force = 10;
-                int distances = 0;
+                float distances = 0;
                 for (int i = 0; i < columnsNumber; i++){
                     for (int j = 0; j < rowsNumber; j++){
 
@@ -263,7 +263,7 @@ switch (state) {
                 }
                // ofLog(OF_LOG_NOTICE,ofToString(interpols));
 //when all bricks are back in position, remodulate their explosion speed and direction
-                if (distances == 0 ){
+                if (distances <= 0 ){
                     for (int i = 0; i < columnsNumber; i++){
                         for (int j = 0; j < rowsNumber; j++){
                             bricks[i][j].setDirection();
@@ -286,8 +286,6 @@ switch (state) {
 //Update the bricks' state
     for (int i = 0; i < columnsNumber; i++){
         for (int j = 0; j < rowsNumber; j++){
-            bricks[i][j].direction.x += ofRandom(-0.001,0.001);
-            bricks[i][j].direction.y += ofRandom(-0.001,0.001);
             bricks[i][j].update();
         }
     }

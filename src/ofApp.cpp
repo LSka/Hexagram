@@ -195,6 +195,7 @@ switch (state) {
 //we want to randomly choose which of the central bricks will be visible and to define
 //each combination with a number. To do so, we create a 6-bit bitset to store the visibility states as binary digits
                     std::bitset<6> hexa;
+                    nonVisible = 0;
                     for (int i = 0; i < columnsNumber; i++){
                         for (int j = 0; j < rowsNumber; j++){
                             
@@ -216,6 +217,7 @@ switch (state) {
                                 }
                                 else{
                                     bricks[i][j].visible = FALSE;
+                                    nonVisible++;
                                     hexa.set(j,0); //set the correspondent bit to FALSE
                                 }
                                 
@@ -244,7 +246,7 @@ switch (state) {
             
     case COMPOSE: {
                 //force = 10;
-                float interpols = 0;
+                int distances = 0;
                 for (int i = 0; i < columnsNumber; i++){
                     for (int j = 0; j < rowsNumber; j++){
 
@@ -256,12 +258,12 @@ switch (state) {
                         bricks[i][j].rotationX = -distance;
                         bricks[i][j].rotationZ = -distance/2;
                         
-                        interpols += bricks[i][j].interpolator;
+                        distances += distance;
                     }
                 }
                // ofLog(OF_LOG_NOTICE,ofToString(interpols));
 //when all bricks are back in position, remodulate their explosion speed and direction
-                if (interpols >= 18){
+                if (distances == 0 ){
                     for (int i = 0; i < columnsNumber; i++){
                         for (int j = 0; j < rowsNumber; j++){
                             bricks[i][j].setDirection();
@@ -284,6 +286,8 @@ switch (state) {
 //Update the bricks' state
     for (int i = 0; i < columnsNumber; i++){
         for (int j = 0; j < rowsNumber; j++){
+            bricks[i][j].direction.x += ofRandom(-0.001,0.001);
+            bricks[i][j].direction.y += ofRandom(-0.001,0.001);
             bricks[i][j].update();
         }
     }
@@ -352,6 +356,7 @@ void ofApp::draw() {
         if (allOut()) ss << "ALL OUT"<< endl << endl;
         else ss << "IN" << endl << endl;
         ss << "STATE: " << state << endl << endl;
+        ss << "NON VISIBLE: " << nonVisible << endl << endl;
         ofDrawBitmapStringHighlight(ss.str().c_str(), 20, 20);
     }
 
@@ -367,7 +372,7 @@ void ofApp::keyPressed(int key) {
             break;
 	
         case 'e':
-            force = ofRandom(4,10);
+            force = ofRandom(4,9);
             state = EXPLODE;
             ofxOscMessage mess;
             mess.setAddress("/hexagram/state");
@@ -378,55 +383,6 @@ void ofApp::keyPressed(int key) {
 
     //
 
-
-}
-
-//--------------------------------------------------------------
-void ofApp::keyReleased(int key){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y ){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button){
-
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button){
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button){
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseEntered(int x, int y){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseExited(int x, int y){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::windowResized(int w, int h){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::gotMessage(ofMessage msg){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo){
 
 }
 

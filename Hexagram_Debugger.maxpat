@@ -10,7 +10,7 @@
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 68.0, 278.0, 640.0, 480.0 ],
+		"rect" : [ 152.0, 523.0, 640.0, 480.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -38,6 +38,66 @@
 		"style" : "",
 		"subpatcher_template" : "",
 		"boxes" : [ 			{
+				"box" : 				{
+					"id" : "obj-19",
+					"maxclass" : "button",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "bang" ],
+					"parameter_enable" : 0,
+					"patching_rect" : [ 65.0, 345.0, 24.0, 24.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-18",
+					"maxclass" : "newobj",
+					"numinlets" : 2,
+					"numoutlets" : 2,
+					"outlettype" : [ "", "" ],
+					"patching_rect" : [ 36.0, 314.0, 201.0, 22.0 ],
+					"text" : "routepass /breathDetector/heartbeat"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-17",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 28.5, 280.0, 97.0, 22.0 ],
+					"text" : "udpreceive 6001"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-15",
+					"maxclass" : "toggle",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "int" ],
+					"parameter_enable" : 0,
+					"patching_rect" : [ 218.0, 8.0, 24.0, 24.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-13",
+					"maxclass" : "newobj",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "bang" ],
+					"patching_rect" : [ 246.0, 34.0, 83.0, 22.0 ],
+					"text" : "metro 120000"
+				}
+
+			}
+, 			{
 				"box" : 				{
 					"id" : "obj-12",
 					"maxclass" : "newobj",
@@ -68,8 +128,8 @@
 					"numinlets" : 2,
 					"numoutlets" : 2,
 					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 294.0, 222.0, 69.0, 22.0 ],
-					"text" : "route /state"
+					"patching_rect" : [ 294.0, 222.0, 125.0, 22.0 ],
+					"text" : "route /hexagram/state"
 				}
 
 			}
@@ -116,8 +176,8 @@
 					"numinlets" : 2,
 					"numoutlets" : 2,
 					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 39.0, 131.0, 119.0, 22.0 ],
-					"text" : "routepass /heartbeat"
+					"patching_rect" : [ 39.0, 131.0, 175.0, 22.0 ],
+					"text" : "routepass /hexagram/heartbeat"
 				}
 
 			}
@@ -152,8 +212,8 @@
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 294.0, 369.0, 142.0, 22.0 ],
-					"text" : "udpsend localhost 50000"
+					"patching_rect" : [ 294.0, 369.0, 135.0, 22.0 ],
+					"text" : "udpsend localhost 5000"
 				}
 
 			}
@@ -163,7 +223,7 @@
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 139.0, 227.0, 91.0, 22.0 ],
+					"patching_rect" : [ 195.0, 176.0, 91.0, 22.0 ],
 					"text" : "print @popup 1"
 				}
 
@@ -175,8 +235,8 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 39.0, 82.0, 104.0, 22.0 ],
-					"text" : "udpreceive 60000"
+					"patching_rect" : [ 39.0, 82.0, 97.0, 22.0 ],
+					"text" : "udpreceive 6000"
 				}
 
 			}
@@ -206,6 +266,34 @@
 				"patchline" : 				{
 					"destination" : [ "obj-3", 0 ],
 					"source" : [ "obj-12", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-11", 0 ],
+					"source" : [ "obj-13", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-13", 0 ],
+					"source" : [ "obj-15", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-18", 0 ],
+					"source" : [ "obj-17", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-19", 0 ],
+					"source" : [ "obj-18", 0 ]
 				}
 
 			}

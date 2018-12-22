@@ -44,7 +44,7 @@ void Brick::setDirection(){
 float Brick::chooseDirection(){
     float dir;
     float d = ofRandom(1);
-    if (d >= .5) dir = ofRandom(.5,1);
-    else dir = ofRandom(-1,.5);
+    if (d > .5) dir = ofRandom(.6,1);
+    else dir = ofRandom(-1,.6);
     return dir;
 }

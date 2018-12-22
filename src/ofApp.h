@@ -33,8 +33,9 @@ public:
     
     ofImage texture1;
     ofImage texture2;
-    int mode;
-    int planesNumber;
+    
+    int columnsNumber;
+    int rowsNumber;
     int counter;
     
     float width;

@@ -27,6 +27,7 @@ public:
     float brickHeight;
     float rotationX;
     float rotationY;
+    float rotationZ;
     float interpolator;
     
     bool visible;

@@ -13,6 +13,7 @@ Brick::Brick(){
 void Brick::setup(){
     rotationX = 0;
     rotationY = 0;
+    rotationZ = 0;
     acc = 0;
     setDirection();
     brickPlane.setWidth(brickWidth);
@@ -36,8 +37,8 @@ void Brick::draw(){
 }
 
 void Brick::setDirection(){
-    direction.x = chooseDirection();
-    direction.y = chooseDirection();
+    //direction.x += ofRandom(-0.4,0.);
+    //direction.y += ofRandom(-0.7,0.);
 }
 
 

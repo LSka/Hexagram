@@ -37,15 +37,6 @@ void Brick::draw(){
 }
 
 void Brick::setDirection(){
-    //direction.x += ofRandom(-0.4,0.);
-    //direction.y += ofRandom(-0.7,0.);
+
 }
 
-
-float Brick::chooseDirection(){
-    float dir;
-    float d = ofRandom(1);
-    if (d > .5) dir = ofRandom(.6,1);
-    else dir = ofRandom(-1,.6);
-    return dir;
-}

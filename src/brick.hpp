@@ -38,8 +38,7 @@ public:
     Brick();
     
 private:
-    float wiggle;
-    float chooseDirection();
+
 };
 
 #endif /* brick_hpp */

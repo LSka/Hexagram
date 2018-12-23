@@ -46,22 +46,22 @@ void ofApp::setup(){
                     //fist column
                 case 0 : {
                     startPositions[0][j] = ofVec3f(-planeWidth, (startPosition) + d * j + height, zPos);
-                    bricks[i][j].direction.x = -1;
+                    bricks[i][j].direction.x = ofRandom(-.9,-.7);
                     bricks[i][j].direction.y = ofMap(j,0,5,-1.,1.);
                     break;
                 }
                     //second column
                 case 1 : {
                     startPositions[1][j] = ofVec3f(0, (startPosition) + d * j + height, zPos);
-                    if (ofInRange(j, 0, columnsNumber/2)) bricks[i][j].direction.y = -1;
-                    else bricks[i][j].direction.y = 0.6;
+                    if (ofInRange(j, 0, columnsNumber/2)) bricks[i][j].direction.y = ofRandom(.3,.7);
+                    else bricks[i][j].direction.y = ofRandom(-.3,-.7);
                     break;
                 }
                     
                     //third column
                 case 2 : {
                     startPositions[2][j] = ofVec3f(planeWidth, (startPosition) + d * j + height, zPos);
-                    bricks[i][j].direction.x = 1;
+                    bricks[i][j].direction.x = ofRandom(.3,.5);;
                     bricks[i][j].direction.y = ofMap(j,0,5,-1.,1.);
                     break;
                 }
@@ -74,7 +74,9 @@ void ofApp::setup(){
     }
 
 //initialize the background plane
-    bgPlane.set(screenWidth+430,screenHeight+240);
+    bgPlane.set(screenWidth*1.45,screenHeight*1.45);
+    bgPlane.setPosition(0,0,-(width*2));
+
 
     
 //initialize lighting
@@ -186,7 +188,7 @@ switch (state) {
                         //rotation is related to the distance from the points of origin
                         float distance = bricks[i][j].position.distance(startPositions[i][j]);
                         bricks[i][j].rotationX = distance;
-                        bricks[i][j].rotationZ = distance/2;
+                        bricks[i][j].rotationZ = -distance;
                     }
                 }
             
@@ -251,12 +253,12 @@ switch (state) {
                     for (int j = 0; j < rowsNumber; j++){
 
 //move back the bricks by interpolating their current position with their original position
-                        bricks[i][j].interpolator += 0.0001 * force;
+                        bricks[i][j].interpolator += 0.00002 * force;
                         bricks[i][j].position = bricks[i][j].position.interpolate(startPositions[i][j],bricks[i][j].interpolator);
                         
                         float distance = bricks[i][j].position.distance(startPositions[i][j]);
                         bricks[i][j].rotationX = -distance;
-                        bricks[i][j].rotationZ = -distance/2;
+                        bricks[i][j].rotationZ = distance;
                         
                         distances += distance;
                     }
@@ -311,8 +313,6 @@ void ofApp::draw() {
 	ofEnableLighting();
 	pointLight.enable();
 
-    //bgMaterial.begin();
-    bgPlane.setPosition(0,0,-planeWidth);
   //  bgMovie.getTexture().bind();
     ofSetColor(255,255,255);
     ofFill();

@@ -47,14 +47,14 @@ void ofApp::setup(){
                 case 0 : {
                     startPositions[0][j] = ofVec3f(-planeWidth, (startPosition) + d * j + height, zPos);
                     bricks[i][j].direction.x = ofRandom(-.9,-.7);
-                    bricks[i][j].direction.y = ofMap(j,0,5,-1.,1.);
+                    bricks[i][j].direction.y = ofMap(j,0,5,-1.,1.)*ofRandom(.9,1.);
                     break;
                 }
                     //second column
                 case 1 : {
                     startPositions[1][j] = ofVec3f(0, (startPosition) + d * j + height, zPos);
-                    if (ofInRange(j, 0, columnsNumber/2)) bricks[i][j].direction.y = ofRandom(.3,.7);
-                    else bricks[i][j].direction.y = ofRandom(-.3,-.7);
+                    if (ofInRange(j, 0, columnsNumber/2)) bricks[i][j].direction.y = ofRandom(-.6,-.9);
+                    else bricks[i][j].direction.y = ofRandom(.5,.9);
                     break;
                 }
                     
@@ -62,7 +62,7 @@ void ofApp::setup(){
                 case 2 : {
                     startPositions[2][j] = ofVec3f(planeWidth, (startPosition) + d * j + height, zPos);
                     bricks[i][j].direction.x = ofRandom(.3,.5);;
-                    bricks[i][j].direction.y = ofMap(j,0,5,-1.,1.);
+                    bricks[i][j].direction.y = ofMap(j,0,5,-1.,1.)*ofRandom(.9,1.);
                     break;
                 }
             }
@@ -83,24 +83,25 @@ void ofApp::setup(){
     ofSetSmoothLighting(true);
     pointLight.setDiffuseColor( ofFloatColor(1, 1, 1) );
     pointLight.setSpecularColor( ofFloatColor(1.f, 1.f, 1.f));
+    pointLight.setAttenuation(1.2,.0,0);
+    pointLight.setPosition((ofGetWidth()*.5), ofGetHeight()/3, 300);
     
     pointLight2.setDiffuseColor( ofFloatColor(.95, .95, .65) );
     pointLight2.setSpecularColor( ofFloatColor(1.f, 1.f, 1.f));
-    
-    pointLight.setPosition((ofGetWidth()*.5), ofGetHeight()/2, 500);
-    pointLight2.setPosition((ofGetWidth()*.5), 0, 0);
+    pointLight2.setPosition(-(ofGetWidth()*.5), ofGetHeight()/3, 300);
 
     
 //set the materials
     // shininess is a value between 0 - 128, 128 being the most shiny //
-    brickMaterial.setShininess( 120 );
+    brickMaterial.setShininess( 30 );
     // the light highlight of the material //
-    brickMaterial.setSpecularColor(ofColor(80, 80, 80, 80));
-    brickMaterial.setDiffuseColor(ofColor(0,0,0));
+    brickMaterial.setSpecularColor(ofFloatColor(.3,.3,.3));
+    brickMaterial.setDiffuseColor(ofColor(0.1,0.1,0.1));
+    brickMaterial.setAmbientColor(ofColor(0.,0.,0.));
     
-    bgMaterial.setShininess( 63 );
+    bgMaterial.setShininess( 128 );
     // the light highlight of the material //
-    bgMaterial.setSpecularColor(ofColor(63, 63, 63, 63));
+    bgMaterial.setSpecularColor(ofFloatColor(1,1,1));
     bgMaterial.setDiffuseColor(ofColor(1,1,1));
 
  /*   bgMovie.load("background.mp4");
@@ -293,9 +294,13 @@ switch (state) {
     }
     
 //move lights
-    //pointLight.setPosition((sin(ofGetElapsedTimef()*0.5))*ofGetWidth(), ofGetHeight()/1.5, 500);
-    pointLight2.setPosition(cos(ofGetElapsedTimef())*ofGetWidth(), 0, 100);
-
+    float pulse1 = (sin(ofGetElapsedTimef()*0.5)*0.6);
+    float pulse2 = (cos(ofGetElapsedTimef()*0.5)*0.6);
+    pointLight.setAttenuation(1.1+pulse1,0,0);
+    pointLight2.setAttenuation(1.2+pulse2,0,0);
+    
+    box.set(100,100,100);
+    box.setPosition(pointLight2.getPosition());
 }
 
 //--------------------------------------------------------------
@@ -312,6 +317,7 @@ void ofApp::draw() {
 
 	ofEnableLighting();
 	pointLight.enable();
+    pointLight2.enable();
 
   //  bgMovie.getTexture().bind();
     ofSetColor(255,255,255);
@@ -338,6 +344,7 @@ void ofApp::draw() {
     brickMaterial.end();
     //texture1.getTexture().unbind();
 
+   // box.draw();
     
 	ofDisableLighting();
 	ofDisableDepthTest();

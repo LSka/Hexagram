@@ -210,7 +210,7 @@ switch (state) {
                         //rotation is related to the distance from the points of origin
                         float distance = bricks[i][j].position.distance(startPositions[i][j]);
                         bricks[i][j].rotationX = distance;
-                        bricks[i][j].rotationZ = -distance;
+                        bricks[i][j].rotationZ = -distance*0.8;
                     }
                 }
             
@@ -275,12 +275,12 @@ switch (state) {
                     for (int j = 0; j < rowsNumber; j++){
 
 //move back the bricks by interpolating their current position with their original position
-                        bricks[i][j].interpolator += 0.00002 * force;
+                        bricks[i][j].interpolator += 0.00003;
                         bricks[i][j].position = bricks[i][j].position.interpolate(startPositions[i][j],bricks[i][j].interpolator);
                         
                         float distance = bricks[i][j].position.distance(startPositions[i][j]);
                         bricks[i][j].rotationX = -distance;
-                        bricks[i][j].rotationZ = distance;
+                        bricks[i][j].rotationZ = distance*.8;
                         
                         distances += distance;
                     }

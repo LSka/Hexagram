@@ -24,6 +24,7 @@ public:
     
     ofImage texture1;
     ofImage texture2;
+    vector<ofImage> textures;
     
     int columnsNumber;
     int rowsNumber;

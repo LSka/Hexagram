@@ -10,6 +10,21 @@ void ofApp::setup(){
     ofDisableArbTex();
     texture1.load("paper.jpg"); //Background texture ===To be subsituted by background videos!===
     texture1.getTexture().setTextureWrap( GL_REPEAT, GL_REPEAT );
+    texture2.load("wood.tif");
+    texture2.getTexture().setTextureWrap( GL_REPEAT, GL_REPEAT );
+    
+    string path = "wood/images";
+    ofDirectory dir(path);
+    dir.allowExt("png");
+    dir.listDir();
+    
+    for (int t = 0; t < dir.size(); t++){
+        ofImage tex;
+        tex.load(dir.getPath(t));
+        textures.push_back(tex);
+    }
+    
+    
 
     bFill       = true;
     bHelpText   = false;
@@ -53,8 +68,8 @@ void ofApp::setup(){
                     //second column
                 case 1 : {
                     startPositions[1][j] = ofVec3f(0, (startPosition) + d * j + height, zPos);
-                    if (ofInRange(j, 0, columnsNumber/2)) bricks[i][j].direction.y = ofRandom(-.6,-.9);
-                    else bricks[i][j].direction.y = ofRandom(.5,.9);
+                    if (ofInRange(j, 0, columnsNumber/2)) bricks[i][j].direction.y = ofRandom(-.6,-.8);
+                    else bricks[i][j].direction.y = ofRandom(.5,.6);
                     break;
                 }
                     
@@ -66,6 +81,7 @@ void ofApp::setup(){
                     break;
                 }
             }
+
             bricks[i][j].position = startPositions[i][j];
             
             //create and intialize the bricks
@@ -89,15 +105,20 @@ void ofApp::setup(){
     pointLight2.setDiffuseColor( ofFloatColor(.95, .95, .65) );
     pointLight2.setSpecularColor( ofFloatColor(1.f, 1.f, 1.f));
     pointLight2.setPosition(-(ofGetWidth()*.5), ofGetHeight()/3, 300);
+    
+    pointLight3.setDiffuseColor( ofFloatColor(.95, .95, .65) );
+    pointLight3.setSpecularColor( ofFloatColor(1.f, 1.f, 1.f));
+    pointLight3.setPosition(0,0, 400);
+    
 
     
 //set the materials
     // shininess is a value between 0 - 128, 128 being the most shiny //
-    brickMaterial.setShininess( 30 );
+    brickMaterial.setShininess( 80 );
     // the light highlight of the material //
-    brickMaterial.setSpecularColor(ofFloatColor(.3,.3,.3));
-    brickMaterial.setDiffuseColor(ofColor(0.1,0.1,0.1));
-    brickMaterial.setAmbientColor(ofColor(0.,0.,0.));
+    brickMaterial.setSpecularColor(ofFloatColor(.9,.9,.9));
+    brickMaterial.setDiffuseColor(ofColor(1,1,1));
+    brickMaterial.setAmbientColor(ofColor(0.8,0.8,0.8));
     
     bgMaterial.setShininess( 128 );
     // the light highlight of the material //
@@ -295,12 +316,16 @@ switch (state) {
     
 //move lights
     float pulse1 = (sin(ofGetElapsedTimef()*0.5)*0.6);
-    float pulse2 = (cos(ofGetElapsedTimef()*0.5)*0.6);
-    pointLight.setAttenuation(1.1+pulse1,0,0);
-    pointLight2.setAttenuation(1.2+pulse2,0,0);
+    float pulse2 = (cos(ofGetElapsedTimef()*0.4)*0.6);
+    float pulse3 = (sin(ofGetElapsedTimef()*0.1)*0.3);
+    pointLight.setAttenuation(1.8+pulse1,0,0);
+    pointLight2.setAttenuation(1.7+pulse2,0,0);
+    pointLight3.setAttenuation(0.8+(ofNoise((ofGetElapsedTimef()*0.3))),0,0);
+    pointLight3.setPosition(0,pulse3*ofGetHeight(),400);
     
-    box.set(100,100,100);
+   /* box.set(100,100,100);
     box.setPosition(pointLight2.getPosition());
+    */
 }
 
 //--------------------------------------------------------------
@@ -318,6 +343,7 @@ void ofApp::draw() {
 	ofEnableLighting();
 	pointLight.enable();
     pointLight2.enable();
+    pointLight3.enable();
 
   //  bgMovie.getTexture().bind();
     ofSetColor(255,255,255);
@@ -328,21 +354,25 @@ void ofApp::draw() {
   //  bgMovie.getTexture().unbind();
     //bgMaterial.end();
     
-    brickMaterial.begin();
-    ofSetColor(0,0,0);
-    ofFill();
-    
-    //texture1.getTexture().bind();
+
+    int index = 0;
+    //texture2.bind();
     for (int i = 0; i < columnsNumber; i++){
         for (int j = 0; j < rowsNumber; j++){
-            
+            brickMaterial.begin();
+            textures[index].bind();
+            ofSetColor(0,0,0);
+            ofFill();
             bricks[i][j].draw();
+            textures[index].unbind();
+            brickMaterial.end();
+            index++;
             
         }
     }
 
-    brickMaterial.end();
-    //texture1.getTexture().unbind();
+   
+    //texture2.unbind();
 
    // box.draw();
     

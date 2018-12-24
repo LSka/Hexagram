@@ -315,13 +315,14 @@ switch (state) {
     }
     
 //move lights
-    float pulse1 = (sin(ofGetElapsedTimef()*0.5)*0.6);
-    float pulse2 = (cos(ofGetElapsedTimef()*0.4)*0.6);
-    float pulse3 = (sin(ofGetElapsedTimef()*0.1)*0.3);
+    float pulse1 = (sin(time*0.5)*0.6);
+    float pulse2 = (cos(time*0.4)*0.6);
+    float pulse3 = (sin(time*0.1)*0.3);
+    float noise = ofNoise(time*0.3);
     pointLight.setAttenuation(1.8+pulse1,0,0);
     pointLight2.setAttenuation(1.7+pulse2,0,0);
-    pointLight3.setAttenuation(0.8+(ofNoise((ofGetElapsedTimef()*0.3))),0,0);
-    pointLight3.setPosition(0,pulse3*ofGetHeight(),400);
+    pointLight3.setAttenuation(0.8+noise,0,0);
+    pointLight3.setPosition(ofMap(noise,0.,1.,-width,width),pulse3*ofGetHeight(),400);
     
    /* box.set(100,100,100);
     box.setPosition(pointLight2.getPosition());

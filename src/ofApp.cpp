@@ -348,7 +348,6 @@ void ofApp::draw() {
 
   //  bgMovie.getTexture().bind();
     ofSetColor(255,255,255);
-    ofFill();
     texture1.bind();
     bgPlane.draw();
     texture1.unbind();
@@ -363,7 +362,6 @@ void ofApp::draw() {
             brickMaterial.begin();
             textures[index].bind();
             ofSetColor(0,0,0);
-            ofFill();
             bricks[i][j].draw();
             textures[index].unbind();
             brickMaterial.end();
@@ -379,7 +377,6 @@ void ofApp::draw() {
     
 	ofDisableLighting();
 	ofDisableDepthTest();
-	ofFill();
 
 	cam.end();
 	

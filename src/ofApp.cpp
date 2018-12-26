@@ -194,8 +194,10 @@ switch (state) {
 //set the bricks' position to their initial state (probably not necessary)
                 for (int i = 0; i < columnsNumber; i++){
                     for (int j = 0; j < rowsNumber; j++){
-                bricks[i][j].acc = 0;
-                bricks[i][j].position = startPositions[i][j];
+                        Brick* b; //Create a pointer that points to the corresponding brick in the array
+                        b = &bricks[i][j];
+                b->acc = 0;
+                b->position = startPositions[i][j];
                 
                // bricks[i][j].rotationX = r;
                     }
@@ -206,11 +208,13 @@ switch (state) {
     case EXPLODE: {
                 for (int i = 0; i < columnsNumber; i++){
                     for (int j = 0; j < rowsNumber; j++){
-                        bricks[i][j].acc = force; //apply force to the bricks
+                        Brick* b; //Create a pointer that points to the corresponding brick in the array
+                        b = &bricks[i][j];
+                        b->acc = force; //apply force to the bricks
                         //rotation is related to the distance from the points of origin
                         float distance = bricks[i][j].position.distance(startPositions[i][j]);
-                        bricks[i][j].rotationX = distance;
-                        bricks[i][j].rotationZ = -distance*0.8;
+                        b->rotationX = distance;
+                        b->rotationZ = -distance*0.8;
                     }
                 }
             
@@ -222,12 +226,14 @@ switch (state) {
                     nonVisible = 0;
                     for (int i = 0; i < columnsNumber; i++){
                         for (int j = 0; j < rowsNumber; j++){
+                            Brick* b; //Create a pointer that points to the corresponding brick in the array
+                            b = &bricks[i][j];
                             
                             //Stop the bricks
-                            bricks[i][j].acc = 0;
-                            bricks[i][j].velocity = ofVec3f(0,0,0);
-                            bricks[i][j].rotationX = 0;
-                            bricks[i][j].rotationY = 0;
+                            b->acc = 0;
+                            b->velocity = ofVec3f(0,0,0);
+                            b->rotationX = 0;
+                            b->rotationY = 0;
                             
 //the interpolator represent the normalized distance between the bricks' current position and their respective origin points.
 //we'll use a simple interpolation to take them back to the origin
@@ -236,11 +242,11 @@ switch (state) {
                             if (i == 1) { //only for the bricks in the middle column, choose if they're visible
                                 float ra = ofRandom(0,1);
                                 if (ra >= 0.5){
-                                    bricks[i][j].visible = TRUE;
+                                    b->visible = TRUE;
                                     hexa.set(j); //set the correspondent bit to TRUE
                                 }
                                 else{
-                                    bricks[i][j].visible = FALSE;
+                                    b->visible = FALSE;
                                     nonVisible++;
                                     hexa.set(j,0); //set the correspondent bit to FALSE
                                 }
@@ -273,14 +279,16 @@ switch (state) {
                 float distances = 0;
                 for (int i = 0; i < columnsNumber; i++){
                     for (int j = 0; j < rowsNumber; j++){
+                        Brick* b; //Create a pointer that points to the corresponding brick in the array
+                        b = &bricks[i][j];
 
 //move back the bricks by interpolating their current position with their original position
-                        bricks[i][j].interpolator += 0.00003;
-                        bricks[i][j].position = bricks[i][j].position.interpolate(startPositions[i][j],bricks[i][j].interpolator);
+                        b->interpolator += 0.00003;
+                        b->position = bricks[i][j].position.interpolate(startPositions[i][j],bricks[i][j].interpolator);
                         
                         float distance = bricks[i][j].position.distance(startPositions[i][j]);
-                        bricks[i][j].rotationX = -distance;
-                        bricks[i][j].rotationZ = distance*.8;
+                        b->rotationX = -distance;
+                        b->rotationZ = distance*.8;
                         
                         distances += distance;
                     }
@@ -361,7 +369,6 @@ void ofApp::draw() {
         for (int j = 0; j < rowsNumber; j++){
             brickMaterial.begin();
             textures[index].bind();
-            ofSetColor(0,0,0);
             bricks[i][j].draw();
             textures[index].unbind();
             brickMaterial.end();
@@ -425,7 +432,7 @@ bool ofApp::allOut(){
     
     for (int i = 0; i < columnsNumber; i++){
         for (int j = 0; j< rowsNumber; j++){
-            Brick * b = &bricks[i][j];
+            Brick* b = &bricks[i][j];
             float  x = b->position.x;
             float  y = b->position.y;
             if (!ofInRange(x,-1100,1100) || !ofInRange(y,-700,700)){

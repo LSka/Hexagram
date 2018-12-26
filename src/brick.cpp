@@ -16,8 +16,7 @@ void Brick::setup(){
     rotationZ = 0;
     acc = 0;
     setDirection();
-    brickPlane.setWidth(brickWidth);
-    brickPlane.setHeight(brickHeight);
+    brickPlane.set(brickWidth,brickHeight,10);
     visible = TRUE;
 }
 

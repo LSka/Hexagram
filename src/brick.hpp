@@ -32,7 +32,7 @@ public:
     
     bool visible;
     
-    ofPlanePrimitive brickPlane;
+    ofBoxPrimitive brickPlane;
     
     
     Brick();

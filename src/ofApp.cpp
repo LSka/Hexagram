@@ -108,7 +108,7 @@ void ofApp::setup(){
     
     pointLight3.setDiffuseColor( ofFloatColor(.95, .95, .65) );
     pointLight3.setSpecularColor( ofFloatColor(1.f, 1.f, 1.f));
-    pointLight3.setPosition(0,0, 400);
+    pointLight3.setPosition(0,0, 700);
     
 
     

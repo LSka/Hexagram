@@ -425,8 +425,9 @@ bool ofApp::allOut(){
     
     for (int i = 0; i < columnsNumber; i++){
         for (int j = 0; j< rowsNumber; j++){
-            float x = bricks[i][j].position.x;
-            float y = bricks[i][j].position.y;
+            Brick * b = &bricks[i][j];
+            float  x = b->position.x;
+            float  y = b->position.y;
             if (!ofInRange(x,-1100,1100) || !ofInRange(y,-700,700)){
                 c++;
             }

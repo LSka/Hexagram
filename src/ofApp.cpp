@@ -92,6 +92,7 @@ void ofApp::setup(){
 //initialize the background plane
     bgPlane.set(screenWidth*1.45,screenHeight*1.45);
     bgPlane.setPosition(0,0,-(width*2));
+    bgPlane.rotateDeg(90,0,0,1);
 
 
     
@@ -133,7 +134,7 @@ void ofApp::setup(){
     
 //set the camera position
     cam.setGlobalPosition({ 0,0,cam.getImagePlaneDistance(ofGetCurrentViewport()) });
-    cam.rotateDeg(90,0,0,0);
+    cam.rotateDeg(90,0,0,1);
     
 //initialize OSC
     receiver.setup(5000);

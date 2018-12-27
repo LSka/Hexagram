@@ -2,7 +2,7 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-
+    ofHideCursor();
 	ofSetVerticalSync(true);
 	ofBackground(0);
 
@@ -339,6 +339,8 @@ switch (state) {
 //--------------------------------------------------------------
 void ofApp::draw() {
     
+
+    
     float screenWidth = ofGetWidth();
     float screenHeight = ofGetHeight();
     float d = screenHeight / rowsNumber;
@@ -398,7 +400,6 @@ void ofApp::draw() {
         ss << "Light Z: " << lightZ << endl << endl;
         ofDrawBitmapStringHighlight(ss.str().c_str(), 20, 20);
     }
-
 
 }
 

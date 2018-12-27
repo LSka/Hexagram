@@ -126,10 +126,11 @@ void ofApp::setup(){
     brickMaterial.setDiffuseColor(ofColor(1,1,1));
     brickMaterial.setAmbientColor(ofColor(0.8,0.8,0.8));
     
-    bgMaterial.setShininess( 128 );
+    bgMaterial.setShininess( 15 );
     // the light highlight of the material //
     bgMaterial.setSpecularColor(ofFloatColor(1,1,1));
-    bgMaterial.setDiffuseColor(ofColor(1,1,1));
+    bgMaterial.setDiffuseColor(ofColor(80,80,80));
+    bgMaterial.setAmbientColor(ofFloatColor(1,1,1));
 
  /*   bgMovie.load("background.mp4");
     bgMovie.setLoopState(OF_LOOP_NORMAL);
@@ -168,7 +169,6 @@ void ofApp::update() {
     }
    
    // bgMovie.update();
-	//ofSetWindowTitle("Framerate: "+ofToString(ofGetFrameRate(), 0));
 
     
 //update the bricks' state based on the set state
@@ -336,8 +336,9 @@ switch (state) {
     pointLight3.setAttenuation(0.8+noise,0,0);
     pointLight3.setPosition(ofMap(noise,0.,1.,-width,width),pulse3*ofGetHeight(),lightZ);
     
+//VISUALIZE A BOX IN THE LIGHT'S POSITION FOR DEBUGGING
    /* box.set(100,100,100);
-    box.setPosition(pointLight2.getPosition());
+    box.setPosition(pointLight3.getPosition());
     */
 }
 
@@ -360,17 +361,17 @@ void ofApp::draw() {
     pointLight2.enable();
     pointLight3.enable();
 
+    bgMaterial.begin();
   //  bgMovie.getTexture().bind();
     ofSetColor(255,255,255);
     texture1.bind();
     bgPlane.draw();
     texture1.unbind();
   //  bgMovie.getTexture().unbind();
-    //bgMaterial.end();
+    bgMaterial.end();
     
 
     int index = 0;
-    //texture2.bind();
     for (int i = 0; i < columnsNumber; i++){
         for (int j = 0; j < rowsNumber; j++){
             brickMaterial.begin();
@@ -384,8 +385,7 @@ void ofApp::draw() {
     }
 
    
-    //texture2.unbind();
-
+//VISUALIZE A BOX IN THE LIGHT'S POSITION FOR DEBUGGING
    // box.draw();
     
 	ofDisableLighting();

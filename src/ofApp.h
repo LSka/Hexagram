@@ -33,12 +33,15 @@ public:
     float height;
     float planeWidth;
     float planeHeight;
+    float horizRange;
+    float vertRange;
     float r;
     float velocity;
     float force;
     float l;
     float oldTime;
     float lightZ;
+    
     
     ofVideoPlayer bgMovie;
     

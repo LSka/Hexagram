@@ -32,6 +32,10 @@ void ofApp::setup(){
     width     = ofGetWidth() * .12; //initialize a static measure unit
     height    = ofGetHeight() * .12;
     
+    //external ranges
+    horizRange = 1200;
+    vertRange = 800;
+    
     
     //these are the bricks dimensions
     planeWidth = width*1.4;
@@ -138,7 +142,7 @@ void ofApp::setup(){
     
 //initialize OSC
     receiver.setup(5000);
-    sender.setup("localhost",6000);
+    sender.setup("192.168.1.255",6000);
     
     ofxOscMessage m;
     m.setAddress("/hexagram/init");
@@ -440,7 +444,7 @@ bool ofApp::allOut(){
             Brick* b = &bricks[i][j];
             float  x = b->position.x;
             float  y = b->position.y;
-            if (!ofInRange(x,-1100,1100) || !ofInRange(y,-700,700)){
+            if (!ofInRange(x,-horizRange,horizRange) || !ofInRange(y,-vertRange,vertRange)){
                 c++;
             }
         }

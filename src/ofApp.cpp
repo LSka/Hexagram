@@ -72,7 +72,7 @@ void ofApp::setup(){
                     //second column
                 case 1 : {
                     startPositions[1][j] = ofVec3f(0, (startPosition) + d * j + height, zPos);
-                    if (ofInRange(j, 0, columnsNumber/2)) bricks[i][j].direction.y = ofRandom(-.6,-.8);
+                    if (ofInRange(j, 0, columnsNumber/2)) bricks[i][j].direction.y = ofRandom(-.6,-.5);
                     else bricks[i][j].direction.y = ofRandom(.5,.6);
                     break;
                 }

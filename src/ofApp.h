@@ -28,9 +28,7 @@ public:
     
     int columnsNumber;
     int rowsNumber;
-    int counter;
-    int nonVisible;
-    
+    int counter;    
     float width;
     float height;
     float planeWidth;
@@ -40,6 +38,7 @@ public:
     float force;
     float l;
     float oldTime;
+    float lightZ;
     
     ofVideoPlayer bgMovie;
     

@@ -108,7 +108,8 @@ void ofApp::setup(){
     
     pointLight3.setDiffuseColor( ofFloatColor(.95, .95, .65) );
     pointLight3.setSpecularColor( ofFloatColor(1.f, 1.f, 1.f));
-    pointLight3.setPosition(0,0, 700);
+    lightZ = 800; //pointLight3 Z position
+    pointLight3.setPosition(0,0, lightZ);
     
 
     
@@ -223,7 +224,6 @@ switch (state) {
 //we want to randomly choose which of the central bricks will be visible and to define
 //each combination with a number. To do so, we create a 6-bit bitset to store the visibility states as binary digits
                     std::bitset<6> hexa;
-                    nonVisible = 0;
                     for (int i = 0; i < columnsNumber; i++){
                         for (int j = 0; j < rowsNumber; j++){
                             Brick* b; //Create a pointer that points to the corresponding brick in the array
@@ -247,7 +247,6 @@ switch (state) {
                                 }
                                 else{
                                     b->visible = FALSE;
-                                    nonVisible++;
                                     hexa.set(j,0); //set the correspondent bit to FALSE
                                 }
                                 
@@ -330,7 +329,7 @@ switch (state) {
     pointLight.setAttenuation(1.8+pulse1,0,0);
     pointLight2.setAttenuation(1.7+pulse2,0,0);
     pointLight3.setAttenuation(0.8+noise,0,0);
-    pointLight3.setPosition(ofMap(noise,0.,1.,-width,width),pulse3*ofGetHeight(),400);
+    pointLight3.setPosition(ofMap(noise,0.,1.,-width,width),pulse3*ofGetHeight(),lightZ);
     
    /* box.set(100,100,100);
     box.setPosition(pointLight2.getPosition());
@@ -396,7 +395,7 @@ void ofApp::draw() {
         if (allOut()) ss << "ALL OUT"<< endl << endl;
         else ss << "IN" << endl << endl;
         ss << "STATE: " << state << endl << endl;
-        ss << "NON VISIBLE: " << nonVisible << endl << endl;
+        ss << "Light Z: " << lightZ << endl << endl;
         ofDrawBitmapStringHighlight(ss.str().c_str(), 20, 20);
     }
 
@@ -411,13 +410,17 @@ void ofApp::keyPressed(int key) {
             bHelpText=!bHelpText;
             break;
 	
-        case 'e':
+        case 'e':{
             force = ofRandom(4,9);
             state = EXPLODE;
             ofxOscMessage mess;
             mess.setAddress("/hexagram/state");
             mess.addIntArg(state);
             sender.sendMessage(mess);
+            break;
+        }
+        case 'l' :
+            lightZ+= 50;
             break;
     }
 

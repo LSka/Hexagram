@@ -1,0 +1,103 @@
+#N canvas 57 94 1399 741 10;
+#X obj 52 12 adc~ 1;
+#X obj 104 642 tgl 15 0 empty empty train 17 7 0 12 -262144 -1 -1 0
+1;
+#X obj 183 642 spigot;
+#X obj 232 642 tgl 15 0 empty empty id 17 7 0 12 -262144 -1 -1 0 1
+;
+#N canvas 507 196 745 433 onsets 0;
+#X obj 56 53 inlet~;
+#X obj 146 327 outlet;
+#X obj 3 4 cnv 10 400 10 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#X obj 3 4 cnv 10 10 400 empty empty empty 20 12 0 14 -233017 -66577
+0;
+#X obj 178 173 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 171 96 r bark-settings;
+#X text 308 53 timbreID comes with its own onset detection object:
+bark~. See its helpfile for more details. In comparison with bonk~
+(the usual onset detection object in Pd) \, bark~ performs very similarly
+but has several extra conveniences. Most importantly \, there is a
+non-real-time version of the object \, enabling easy parsing of pre-recorded
+audio.;
+#X obj 146 135 bark~ 1024 256 0.5;
+#X obj 336 292 loadbang;
+#X msg 336 314 \; bark-settings minvel 15 \; bark-settings debounce
+350 \; bark-settings thresh 5 12 \; bark-settings filter_range 20 49
+\;;
+#X obj 56 385 outlet~;
+#X text 308 163 Doing the attack detection in a subpatch with the input
+signal connected in series before [bfcc~] guarantees the DSP order.
+We first analyze the signal with [bark~] here to look for attacks \,
+and if we find one \, spit out a bang to get the most recent BFCC analysis
+possible back in the parent patch.;
+#X text 558 321 These were good onset detection settings for the audio
+files used in this help file., f 22;
+#X connect 0 0 7 0;
+#X connect 0 0 10 0;
+#X connect 5 0 7 0;
+#X connect 7 0 4 0;
+#X connect 7 0 1 0;
+#X connect 8 0 9 0;
+#X restore 55 353 pd onsets;
+#X obj 55 469 bfcc~ 1024 0.5;
+#X obj 55 642 spigot;
+#X obj 55 665 s \$0-tID;
+#X obj 183 665 s \$0-id;
+#X obj 55 502 list split 25;
+#X msg 888 115 clear;
+#X obj 831 152 s \$0-tID;
+#X msg 832 42 write ./data/feature-db.timid;
+#X msg 868 67 read ./data/feature-db.timid;
+#X obj 487 266 print timbre;
+#X obj 489 118 timbreID, f 40;
+#X text 581 137 Second outlet reports the distance to the nearest match.
+, f 30;
+#X obj 488 53 r \$0-tID;
+#X obj 607 53 r \$0-id;
+#X obj 249 203 env~ 128;
+#X obj 249 240 - 100;
+#X obj 250 270 vu 15 120 empty empty -1 -8 0 10 -66577 -1 1 0;
+#X floatatom 206 269 5 0 0 0 - - -;
+#X floatatom 130 92 5 0 0 0 - - -;
+#X obj 56 183 *~;
+#X obj 54 58 hip~ 80;
+#X obj 91 92 env~;
+#X obj 91 145 pack f 10;
+#X obj 91 118 >;
+#X obj 89 165 line~;
+#X obj 488 200 pack 0 f, f 14;
+#X obj 298 83 dac~;
+#X connect 0 0 25 0;
+#X connect 1 0 6 1;
+#X connect 2 0 8 0;
+#X connect 3 0 2 1;
+#X connect 4 0 5 0;
+#X connect 4 1 5 0;
+#X connect 5 0 9 0;
+#X connect 6 0 7 0;
+#X connect 9 0 2 0;
+#X connect 9 0 6 0;
+#X connect 10 0 11 0;
+#X connect 12 0 11 0;
+#X connect 13 0 11 0;
+#X connect 15 0 30 0;
+#X connect 15 1 30 1;
+#X connect 17 0 15 0;
+#X connect 18 0 15 1;
+#X connect 19 0 20 0;
+#X connect 20 0 21 0;
+#X connect 20 0 22 0;
+#X connect 23 0 28 1;
+#X connect 24 0 4 0;
+#X connect 24 0 19 0;
+#X connect 25 0 24 0;
+#X connect 25 0 26 0;
+#X connect 25 0 31 0;
+#X connect 25 0 31 1;
+#X connect 26 0 28 0;
+#X connect 27 0 29 0;
+#X connect 28 0 27 0;
+#X connect 29 0 24 1;
+#X connect 30 0 14 0;

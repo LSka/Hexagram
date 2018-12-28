@@ -194,7 +194,7 @@ switch (state) {
                 
             }
         }
-                float spinX = 0.1;
+                //float spinX = 0.1;
                 //r += spinX;
         
 //set the bricks' position to their initial state (probably not necessary)

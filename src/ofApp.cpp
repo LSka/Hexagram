@@ -33,8 +33,8 @@ void ofApp::setup(){
     height    = ofGetHeight() * .12;
     
     //external ranges
-    horizRange = 1200;
-    vertRange = 800;
+    horizRange = 1300;
+    vertRange = 900;
     
     
     //these are the bricks dimensions
@@ -288,9 +288,9 @@ switch (state) {
 
 //move back the bricks by interpolating their current position with their original position
                         b->interpolator += 0.00003;
-                        b->position = bricks[i][j].position.interpolate(startPositions[i][j],bricks[i][j].interpolator);
+                        b->position = b->position.interpolate(startPositions[i][j],b->interpolator);
                         
-                        float distance = bricks[i][j].position.distance(startPositions[i][j]);
+                        float distance = b->position.distance(startPositions[i][j]);
                         b->rotationX = -distance;
                         b->rotationZ = distance*.8;
                         

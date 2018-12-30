@@ -132,10 +132,10 @@ void ofApp::setup(){
     bgMaterial.setDiffuseColor(ofColor(80,80,80));
     bgMaterial.setAmbientColor(ofFloatColor(1,1,1));
 
- /*   bgMovie.load("background.mp4");
+    bgMovie.load("bgMovies/bgMovieTest_Center.mp4");
     bgMovie.setLoopState(OF_LOOP_NORMAL);
     bgMovie.play();
-  */
+  
     
 //set the camera position
     cam.setGlobalPosition({ 0,0,cam.getImagePlaneDistance(ofGetCurrentViewport()) });
@@ -168,7 +168,7 @@ void ofApp::update() {
         oldTime = time;
     }
    
-   // bgMovie.update();
+    bgMovie.update();
 
     
 //update the bricks' state based on the set state
@@ -362,12 +362,12 @@ void ofApp::draw() {
     pointLight3.enable();
 
     bgMaterial.begin();
-  //  bgMovie.getTexture().bind();
+  bgMovie.getTexture().bind();
     ofSetColor(255,255,255);
-    texture1.bind();
+    //texture1.bind();
     bgPlane.draw();
-    texture1.unbind();
-  //  bgMovie.getTexture().unbind();
+   //    texture1.unbind();
+  bgMovie.getTexture().unbind();
     bgMaterial.end();
     
 

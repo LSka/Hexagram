@@ -3,6 +3,8 @@
 #include "ofMain.h"
 #include "brick.hpp"
 #include "ofxOsc.h"
+#include "ofxXmlSettings.h"
+
 
 class ofApp : public ofBaseApp{
 	
@@ -66,4 +68,6 @@ public:
     
     ofxOscReceiver receiver;
     ofxOscSender sender;
+    
+    ofxXmlSettings settings;
 };

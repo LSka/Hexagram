@@ -10,7 +10,7 @@
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 620.0, 193.0, 640.0, 480.0 ],
+		"rect" : [ 402.0, 179.0, 199.0, 480.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -211,7 +211,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 39.0, 82.0, 97.0, 22.0 ],
+					"patching_rect" : [ 39.0, 44.0, 97.0, 22.0 ],
 					"text" : "udpreceive 6000"
 				}
 

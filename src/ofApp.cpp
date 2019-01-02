@@ -5,14 +5,28 @@ void ofApp::setup(){
     ofHideCursor();
 	ofSetVerticalSync(true);
 	ofBackground(0);
+    
+    ofLog() << "loading HexagramSettings.xml" <<endl;
+    
+    //we load our settings file
+    //if it doesn't exist we can still make one
+    //by hitting the 's' key
+    if( settings.loadFile("HexagramSettings.xml") ){
+       ofLog() << "HexagramSettings.xml loaded!" << endl;
+    }else{
+        ofLog()<< "unable to load mySettings.xml check data/ folder" << endl;
+    }
+    
+    
 
     // GL_REPEAT for texture wrap only works with NON-ARB textures //
     ofDisableArbTex();
-    texture1.load("paper.jpg"); //Background texture ===To be subsituted by background videos!===
+    string bgTex = settings.getValue("BACKGROUND:TEXTURE", "paper.jpg");
+    texture1.load(bgTex); //Background texture ===To be subsituted by background videos!===
     texture1.getTexture().setTextureWrap( GL_REPEAT, GL_REPEAT );
 
     
-    string path = "wood/images";
+    string path = settings.getValue("BRICKS:TEXTUREFOLDER","wood/images");
     ofDirectory dir(path);
     dir.allowExt("png");
     dir.listDir();
@@ -141,8 +155,11 @@ void ofApp::setup(){
     cam.rotateDeg(90,0,0,1);
     
 //initialize OSC
-    receiver.setup(5000);
-    sender.setup("192.168.1.255",6000);
+    int oscInPort = settings.getValue("OSC:RECEIVER:PORT",5000);
+    receiver.setup(oscInPort);
+    string oscOutHost = settings.getValue("OSC:SENDER:HOST","192.168.1.255");
+    int oscOutPort = settings.getValue("OSC:SENDER:PORT",6000);
+    sender.setup(oscOutHost,oscOutPort);
     
     ofxOscMessage m;
     m.setAddress("/hexagram/init");

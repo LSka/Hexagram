@@ -10,8 +10,7 @@ void ofApp::setup(){
     ofDisableArbTex();
     texture1.load("paper.jpg"); //Background texture ===To be subsituted by background videos!===
     texture1.getTexture().setTextureWrap( GL_REPEAT, GL_REPEAT );
-    texture2.load("wood.tif");
-    texture2.getTexture().setTextureWrap( GL_REPEAT, GL_REPEAT );
+
     
     string path = "wood/images";
     ofDirectory dir(path);

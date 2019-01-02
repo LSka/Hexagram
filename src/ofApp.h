@@ -23,7 +23,7 @@ public:
     enum State state;
     
     ofImage texture1;
-    ofImage texture2;
+
     vector<ofImage> textures;
     
     int columnsNumber;

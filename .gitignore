@@ -12,6 +12,8 @@
 /bin/*
 !/bin/data/
 
+/Haiku_IT/bin/*
+!/Haiku_IT/bin/data/
 #########
 # general
 #########

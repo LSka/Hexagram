@@ -13,8 +13,9 @@ void ofApp::setup(){
     //by hitting the 's' key
     if( settings.loadFile("HexagramSettings.xml") ){
        ofLog() << "HexagramSettings.xml loaded!" << endl;
-    }else{
-        ofLog()<< "unable to load mySettings.xml check data/ folder" << endl;
+    }
+    else{
+        ofLog()<< "unable to load HexagramSettings.xml check data/ folder" << endl;
     }
     
     
@@ -315,7 +316,7 @@ switch (state) {
                 }
                 ofLog(OF_LOG_NOTICE,ofToString(distances));
 //when all bricks are back in position, remodulate their explosion speed and direction
-                if (distances <= 0 ){
+                if (distances <= 0.001 ){
                     for (int i = 0; i < columnsNumber; i++){
                         for (int j = 0; j < rowsNumber; j++){
                             bricks[i][j].setDirection();

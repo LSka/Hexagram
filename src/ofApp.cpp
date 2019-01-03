@@ -314,7 +314,7 @@ switch (state) {
                         distances += distance;
                     }
                 }
-                ofLog(OF_LOG_NOTICE,ofToString(distances));
+                //ofLog(OF_LOG_NOTICE,ofToString(distances));
 //when all bricks are back in position, remodulate their explosion speed and direction
                 if (distances <= 0.001 ){
                     for (int i = 0; i < columnsNumber; i++){

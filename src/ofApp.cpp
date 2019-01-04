@@ -248,7 +248,7 @@ switch (state) {
                     std::bitset<6> hexa;
                     for (int i = 0; i < columnsNumber; i++){
                         for (int j = 0; j < rowsNumber; j++){
-                            Brick* b; //Create a pointer that points to the corresponding brick in the array
+                            Brick* b = new Brick; //Create a pointer that points to the corresponding brick in the array
                             b = &bricks[i][j];
                             
                             //Stop the bricks
@@ -259,7 +259,7 @@ switch (state) {
                             
 //the interpolator represent the normalized distance between the bricks' current position and their respective origin points.
 //we'll use a simple interpolation to take them back to the origin
-                            bricks[i][j].interpolator = 0;
+                            b->interpolator = 0;
                             
                             if (i == 1) { //only for the bricks in the middle column, choose if they're visible
                                 float ra = ofRandom(0,1);

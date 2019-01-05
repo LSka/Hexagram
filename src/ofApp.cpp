@@ -167,6 +167,7 @@ void ofApp::setup(){
     m.addStringArg("ready");
     sender.sendMessage(m);
     
+    b = new Brick; //Create a pointer that points to a corresponding brick in the array
 }
 
 //--------------------------------------------------------------
@@ -213,7 +214,7 @@ switch (state) {
         }
                 //float spinX = 0.1;
                 //r += spinX;
-        
+ /*
 //set the bricks' position to their initial state (probably not necessary)
                 for (int i = 0; i < columnsNumber; i++){
                     for (int j = 0; j < rowsNumber; j++){
@@ -224,14 +225,13 @@ switch (state) {
                 
                // bricks[i][j].rotationX = r;
                     }
-                }
+                }*/
         break;
     }
         
     case EXPLODE: {
                 for (int i = 0; i < columnsNumber; i++){
                     for (int j = 0; j < rowsNumber; j++){
-                        Brick* b; //Create a pointer that points to the corresponding brick in the array
                         b = &bricks[i][j];
                         b->acc = force; //apply force to the bricks
                         //rotation is related to the distance from the points of origin
@@ -248,7 +248,6 @@ switch (state) {
                     std::bitset<6> hexa;
                     for (int i = 0; i < columnsNumber; i++){
                         for (int j = 0; j < rowsNumber; j++){
-                            Brick* b = new Brick; //Create a pointer that points to the corresponding brick in the array
                             b = &bricks[i][j];
                             
                             //Stop the bricks
@@ -300,7 +299,6 @@ switch (state) {
                 float distances = 0;
                 for (int i = 0; i < columnsNumber; i++){
                     for (int j = 0; j < rowsNumber; j++){
-                        Brick* b; //Create a pointer that points to the corresponding brick in the array
                         b = &bricks[i][j];
 
 //move back the bricks by interpolating their current position with their original position

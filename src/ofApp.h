@@ -48,6 +48,7 @@ public:
     ofVideoPlayer bgMovie;
     
     Brick bricks[3][6];
+    Brick* b;
     ofVec3f startPositions[3][6];
     
     ofPlanePrimitive bgPlane;

@@ -70,5 +70,8 @@ public:
     ofxOscReceiver receiver;
     ofxOscSender sender;
     
+    ofxOscMessage heartbeat;
+    ofxOscMessage mess;
+    
     ofxXmlSettings settings;
 };

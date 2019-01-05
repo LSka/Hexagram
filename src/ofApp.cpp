@@ -162,12 +162,14 @@ void ofApp::setup(){
     int oscOutPort = settings.getValue("OSC:SENDER:PORT",6000);
     sender.setup(oscOutHost,oscOutPort);
     
-    ofxOscMessage m;
-    m.setAddress("/hexagram/init");
-    m.addStringArg("ready");
-    sender.sendMessage(m);
+    mess.setAddress("/hexagram/init");
+    mess.addStringArg("ready");
+    sender.sendMessage(mess);
     
     b = new Brick; //Create a pointer that points to a corresponding brick in the array
+    
+    heartbeat.setAddress("/hexagram/heartbeat");
+
 }
 
 //--------------------------------------------------------------
@@ -180,8 +182,6 @@ void ofApp::update() {
     //ofLog(OF_LOG_NOTICE,ofToString(elapsedTime));
     
     if ( elapsedTime >= 1){
-        ofxOscMessage heartbeat;
-        heartbeat.setAddress("/hexagram/heartbeat");
         sender.sendMessage(heartbeat);
         oldTime = time;
     }
@@ -286,7 +286,6 @@ switch (state) {
 
 //set running state to COMPOSE and report it
                     state = COMPOSE;
-                    ofxOscMessage mess;
                     mess.setAddress("/hexagram/state");
                     mess.addIntArg(state);
                     sender.sendMessage(mess);
@@ -324,7 +323,6 @@ switch (state) {
                     //r = 0;
 //get back to REST state and report
                     state = REST;
-                    ofxOscMessage mess;
                     mess.setAddress("/hexagram/state");
                     mess.addIntArg(state);
                     sender.sendMessage(mess);
@@ -434,7 +432,6 @@ void ofApp::keyPressed(int key) {
         case 'e':{
             force = ofRandom(4,9);
             state = EXPLODE;
-            ofxOscMessage mess;
             mess.setAddress("/hexagram/state");
             mess.addIntArg(state);
             sender.sendMessage(mess);
@@ -453,13 +450,15 @@ void ofApp::keyPressed(int key) {
 bool ofApp::allOut(){
     bool out = FALSE;
     int c = 0;
+    float* x;
+    float* y;
     
     for (int i = 0; i < columnsNumber; i++){
         for (int j = 0; j< rowsNumber; j++){
-            Brick* b = &bricks[i][j];
-            float  x = b->position.x;
-            float  y = b->position.y;
-            if (!ofInRange(x,-horizRange,horizRange) || !ofInRange(y,-vertRange,vertRange)){
+            b = &bricks[i][j];
+            x = &b->position.x;
+            y = &b->position.y;
+            if (!ofInRange(*x,-horizRange,horizRange) || !ofInRange(*y,-vertRange,vertRange)){
                 c++;
             }
         }

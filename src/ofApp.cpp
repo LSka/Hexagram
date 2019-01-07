@@ -166,7 +166,7 @@ void ofApp::setup(){
     mess.addStringArg("ready");
     sender.sendMessage(mess);
     
-    b = new Brick; //Create a pointer that points to a corresponding brick in the array
+    
     
     heartbeat.setAddress("/hexagram/heartbeat");
 
@@ -174,6 +174,8 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update() {
+    
+  Brick* b;   //Create a pointer that points to a corresponding brick in the array
 
     
 //send a heartbeat message every second
@@ -353,6 +355,7 @@ switch (state) {
    /* box.set(100,100,100);
     box.setPosition(pointLight3.getPosition());
     */
+    
 }
 
 //--------------------------------------------------------------
@@ -452,6 +455,8 @@ bool ofApp::allOut(){
     int c = 0;
     float* x;
     float* y;
+    
+    Brick* b;
     
     for (int i = 0; i < columnsNumber; i++){
         for (int j = 0; j< rowsNumber; j++){

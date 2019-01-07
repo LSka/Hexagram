@@ -71,7 +71,6 @@ public:
     ofxOscSender sender;
     
     ofxOscMessage heartbeat;
-    ofxOscMessage mess;
     
     ofxXmlSettings settings;
 };

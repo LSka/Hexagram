@@ -162,11 +162,10 @@ void ofApp::setup(){
     int oscOutPort = settings.getValue("OSC:SENDER:PORT",6000);
     sender.setup(oscOutHost,oscOutPort);
     
+    ofxOscMessage mess;
     mess.setAddress("/hexagram/init");
     mess.addStringArg("ready");
     sender.sendMessage(mess);
-    
-    
     
     heartbeat.setAddress("/hexagram/heartbeat");
 
@@ -188,7 +187,6 @@ void ofApp::update() {
         oldTime = time;
     }
    
-   // bgMovie.update();
 
     
 //update the bricks' state based on the set state
@@ -288,6 +286,7 @@ switch (state) {
 
 //set running state to COMPOSE and report it
                     state = COMPOSE;
+                    ofxOscMessage mess;
                     mess.setAddress("/hexagram/state");
                     mess.addIntArg(state);
                     sender.sendMessage(mess);
@@ -303,7 +302,7 @@ switch (state) {
                         b = &bricks[i][j];
 
 //move back the bricks by interpolating their current position with their original position
-                        b->interpolator += 0.00003;
+                        b->interpolator += 0.00003; //the recomposing speed
                         b->position = b->position.interpolate(startPositions[i][j],b->interpolator);
                         
                         float distance = b->position.distance(startPositions[i][j]);
@@ -325,6 +324,7 @@ switch (state) {
                     //r = 0;
 //get back to REST state and report
                     state = REST;
+                    ofxOscMessage mess;
                     mess.setAddress("/hexagram/state");
                     mess.addIntArg(state);
                     sender.sendMessage(mess);
@@ -435,6 +435,7 @@ void ofApp::keyPressed(int key) {
         case 'e':{
             force = ofRandom(4,9);
             state = EXPLODE;
+            ofxOscMessage mess;
             mess.setAddress("/hexagram/state");
             mess.addIntArg(state);
             sender.sendMessage(mess);

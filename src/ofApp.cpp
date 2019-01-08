@@ -208,24 +208,8 @@ switch (state) {
                 sender.sendMessage(mess);
                 receiver.stop(); //stop the OSC receiver to avoid double triggering
                 //ofLog(OF_LOG_NOTICE, ofToString(receivedForce));
-                
-                
             }
         }
-                //float spinX = 0.1;
-                //r += spinX;
- /*
-//set the bricks' position to their initial state (probably not necessary)
-                for (int i = 0; i < columnsNumber; i++){
-                    for (int j = 0; j < rowsNumber; j++){
-                        Brick* b; //Create a pointer that points to the corresponding brick in the array
-                        b = &bricks[i][j];
-                b->acc = 0;
-                b->position = startPositions[i][j];
-                
-               // bricks[i][j].rotationX = r;
-                    }
-                }*/
         break;
     }
         
@@ -278,11 +262,6 @@ switch (state) {
                     int hexaId = int(hexa.to_ulong()); //convert the bit set to an integer
                     //cout<< hexaId << '\n';
                     
-//Send the hexagram number to the haiku visualizers
-                  /*  ofxOscMessage hexagramId;
-                    hexagramId.setAddress("/haiku/hexagram");
-                    hexagramId.addIntArg(hexaId);
-                    sender.sendMessage(hexagramId); */
 
 //set running state to COMPOSE and report it
                     state = COMPOSE;

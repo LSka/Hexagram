@@ -279,16 +279,17 @@ switch (state) {
                     //cout<< hexaId << '\n';
                     
 //Send the hexagram number to the haiku visualizers
-                    ofxOscMessage hexagramId;
+                  /*  ofxOscMessage hexagramId;
                     hexagramId.setAddress("/haiku/hexagram");
                     hexagramId.addIntArg(hexaId);
-                    sender.sendMessage(hexagramId);
+                    sender.sendMessage(hexagramId); */
 
 //set running state to COMPOSE and report it
                     state = COMPOSE;
                     ofxOscMessage mess;
                     mess.setAddress("/hexagram/state");
                     mess.addIntArg(state);
+                    mess.addIntArg(hexaId);
                     sender.sendMessage(mess);
                 }
         break;

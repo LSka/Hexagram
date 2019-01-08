@@ -51,9 +51,7 @@ public:
     
     ofVec3f startPositions[3][6];
     
-    ofPlanePrimitive bgPlane;
-    ofPlanePrimitive testPlane;
-    
+    ofPlanePrimitive bgPlane;    
 
     ofBoxPrimitive box;
     

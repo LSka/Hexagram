@@ -322,9 +322,9 @@ switch (state) {
     }
     
 //move lights
-    float pulse1 = (sin(time*0.1)*1.1);
-    float pulse2 = (cos(time*0.15)*1.1);
-    float pulse3 = (sin(time*0.1)*1.1);
+    float pulse1 = (sin(time*0.1)*1.5);
+    float pulse2 = (cos(time*0.15)*1.5);
+    float pulse3 = (sin(time*0.1)*1.5);
     float noise = ofNoise(time*0.3);
     pointLight.setAttenuation(1.8+pulse1,0,0);
     pointLight2.setAttenuation(1.7+pulse2,0,0);

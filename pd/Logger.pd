@@ -1,4 +1,4 @@
-#N canvas 20 181 800 697 10;
+#N canvas 17 179 800 697 10;
 #X obj 66 51 adc~;
 #X obj 113 519 textfile;
 #X obj 68 87 env~ 256 2048;

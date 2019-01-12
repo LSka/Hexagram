@@ -419,7 +419,6 @@ void ofApp::keyPressed(int key) {
             break;
 	
         case 'e':{
-            force = ofRandom(4,9);
             state = EXPLODE;
             ofxOscMessage mess;
             mess.setAddress("/hexagram/state");

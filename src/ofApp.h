@@ -65,7 +65,7 @@ public:
 	ofCamera cam;
     
     
-    ofxOscReceiver receiver;
+    ofxOscReceiver* receiver;
     ofxOscSender sender;
     
     ofxOscMessage heartbeat;

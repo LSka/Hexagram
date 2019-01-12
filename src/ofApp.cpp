@@ -152,8 +152,9 @@ void ofApp::setup(){
     cam.rotateDeg(90,0,0,1);
     
 //initialize OSC
-    //int oscInPort = settings.getValue("OSC:RECEIVER:PORT",5000);
-    //receiver.setup(oscInPort);
+    int oscInPort = settings.getValue("OSC:RECEIVER:PORT",5000);
+    receiver = new ofxOscReceiver;
+    receiver->setup(oscInPort);
     string oscOutHost = settings.getValue("OSC:SENDER:HOST","192.168.1.255");
     int oscOutPort = settings.getValue("OSC:SENDER:PORT",6000);
     sender.setup(oscOutHost,oscOutPort);
@@ -193,13 +194,12 @@ void ofApp::update() {
 //update the bricks' state based on the set state
 switch (state) {
     case REST: {
-        ofxOscReceiver rec;
         int oscInPort = settings.getValue("OSC:RECEIVER:PORT",5000);
-        rec.setup(oscInPort);
-        rec.start(); //receive messages only if we are in REST state
-        if (rec.hasWaitingMessages()){
+        receiver->setup(oscInPort);
+        receiver->start(); //receive messages only if we are in REST state
+        if (receiver->hasWaitingMessages()){
             ofxOscMessage receivedMessage;
-            rec.getNextMessage(receivedMessage);
+            receiver->getNextMessage(receivedMessage);
             string addr = receivedMessage.getAddress();
             
             if (addr.compare("/listener/force") == 0){ //if the OSC address corresponds to /force
@@ -211,7 +211,7 @@ switch (state) {
                 mess.setAddress("/hexagram/state");
                 mess.addIntArg(state);
                 sender.sendMessage(mess);
-                rec.stop(); //stop the OSC receiver to avoid double triggering
+                receiver->   stop(); //stop the OSC receiver to avoid double triggering
                 //ofLog(OF_LOG_NOTICE, ofToString(receivedForce));
             }
             else{

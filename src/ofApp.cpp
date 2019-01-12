@@ -209,6 +209,9 @@ switch (state) {
                 receiver.stop(); //stop the OSC receiver to avoid double triggering
                 //ofLog(OF_LOG_NOTICE, ofToString(receivedForce));
             }
+            else{
+                ofLog()<<"OSC message received: "<<receivedMessage<<endl  <<endl;
+            }
         }
         break;
     }

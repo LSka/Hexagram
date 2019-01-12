@@ -181,8 +181,8 @@ void ofApp::update() {
 
     
 //send a heartbeat message every second
-/*    float time = ofGetElapsedTimef();
-    float elapsedTime = time - oldTime;
+    float time = ofGetElapsedTimef();
+/*    float elapsedTime = time - oldTime;
     //ofLog(OF_LOG_NOTICE,ofToString(elapsedTime));
     
     if ( elapsedTime >= 1){

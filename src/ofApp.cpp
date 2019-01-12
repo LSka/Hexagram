@@ -178,7 +178,7 @@ void ofApp::update() {
 
     
 //send a heartbeat message every second
-    float time = ofGetElapsedTimef();
+/*    float time = ofGetElapsedTimef();
     float elapsedTime = time - oldTime;
     //ofLog(OF_LOG_NOTICE,ofToString(elapsedTime));
     
@@ -186,7 +186,7 @@ void ofApp::update() {
         sender.sendMessage(heartbeat);
         oldTime = time;
     }
-   
+	*/
 
     
 //update the bricks' state based on the set state
@@ -198,7 +198,7 @@ switch (state) {
             receiver.getNextMessage(receivedMessage);
             string addr = receivedMessage.getAddress();
             
-            if (addr.compare("/force") == 0){ //if the OSC address corresponds to /force
+            if (addr.compare("/listener/force") == 0){ //if the OSC address corresponds to /force
                 force = receivedMessage.getArgAsFloat(0); //set the force to the received parameter
                 state = EXPLODE; //set up the explosion
                 //broadcast the new state

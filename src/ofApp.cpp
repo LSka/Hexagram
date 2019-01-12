@@ -173,9 +173,7 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update() {
-    
-    float force;
-    force = 0;
+
     
   Brick* b;   //Create a pointer that points to a corresponding brick in the array
 

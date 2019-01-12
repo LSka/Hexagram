@@ -119,11 +119,11 @@ void ofApp::setup(){
     pointLight.setDiffuseColor( ofFloatColor(1, 1, 1) );
     pointLight.setSpecularColor( ofFloatColor(1.f, 1.f, 1.f));
     pointLight.setAttenuation(1.2,.0,0);
-    pointLight.setPosition((ofGetWidth()*.5), ofGetHeight()/3, 300);
+    pointLight.setPosition((ofGetWidth()*.5), ofGetHeight()/3, 500);
     
     pointLight2.setDiffuseColor( ofFloatColor(.95, .95, .65) );
     pointLight2.setSpecularColor( ofFloatColor(1.f, 1.f, 1.f));
-    pointLight2.setPosition(-(ofGetWidth()*.5), ofGetHeight()/3, 300);
+    pointLight2.setPosition(-(ofGetWidth()*.5), ofGetHeight()/3, 500);
     
     pointLight3.setDiffuseColor( ofFloatColor(.95, .95, .65) );
     pointLight3.setSpecularColor( ofFloatColor(1.f, 1.f, 1.f));
@@ -162,6 +162,7 @@ void ofApp::setup(){
     mess.setAddress("/hexagram/init");
     mess.addStringArg("ready");
     sender.sendMessage(mess);
+    mess.clear();
     mess.setAddress("/hexagram/state");
     mess.addIntArg(0);
     sender.sendMessage(mess);

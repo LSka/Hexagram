@@ -146,10 +146,6 @@ void ofApp::setup(){
     bgMaterial.setDiffuseColor(ofColor(80,80,80));
     bgMaterial.setAmbientColor(ofFloatColor(1,1,1));
 
-   /* bgMovie.load("bgMovies/bgMovieTest_Center.mp4");
-    bgMovie.setLoopState(OF_LOOP_NORMAL);
-    bgMovie.play();
-  */
     
 //set the camera position
     cam.setGlobalPosition({ 0,0,cam.getImagePlaneDistance(ofGetCurrentViewport()) });
@@ -165,6 +161,9 @@ void ofApp::setup(){
     ofxOscMessage mess;
     mess.setAddress("/hexagram/init");
     mess.addStringArg("ready");
+    sender.sendMessage(mess);
+    mess.setAddress("/hexagram/state");
+    mess.addIntArg(0);
     sender.sendMessage(mess);
     
     heartbeat.setAddress("/hexagram/heartbeat");

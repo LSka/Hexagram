@@ -174,6 +174,9 @@ void ofApp::setup(){
 //--------------------------------------------------------------
 void ofApp::update() {
     
+    float force;
+    force = 0;
+    
   Brick* b;   //Create a pointer that points to a corresponding brick in the array
 
     
@@ -198,8 +201,9 @@ switch (state) {
             receiver.getNextMessage(receivedMessage);
             string addr = receivedMessage.getAddress();
             
-            if (addr.compare("/force") == 0){ //if the OSC address corresponds to /force
+            if (addr.compare("/listener/force") == 0){ //if the OSC address corresponds to /force
                 force = receivedMessage.getArgAsFloat(0); //set the force to the received parameter
+                force = ofClamp(force, 2, 15);
                 state = EXPLODE; //set up the explosion
                 //broadcast the new state
                 ofxOscMessage mess;
@@ -278,7 +282,6 @@ switch (state) {
     }
             
     case COMPOSE: {
-                //force = 10;
                 float distances = 0;
                 for (int i = 0; i < columnsNumber; i++){
                     for (int j = 0; j < rowsNumber; j++){

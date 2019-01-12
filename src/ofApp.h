@@ -39,7 +39,7 @@ public:
     float vertRange;
     float r;
     float velocity;
-    float force;
+    //float force;
     float l;
     float oldTime;
     float lightZ;

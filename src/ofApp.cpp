@@ -65,6 +65,9 @@ void ofApp::setup(){
     
     float zPos = -width; //Z position of the hexagram
     
+    minForce = settings.getValue("OSC:RECEIVER:MIN",1.5);
+    maxForce = settings.getValue("OSC:RECEIVER:MAX",20);
+    
     
   //Set the initial positions and direction relative to the position of the bricks
   // To do so, we store an array with the initial positions which every brick will refer when turning back after the explosion
@@ -154,6 +157,8 @@ void ofApp::setup(){
 //initialize OSC
     int oscInPort = settings.getValue("OSC:RECEIVER:PORT",5000);
     receiver.setup(oscInPort);
+    receiver.start();
+
     string oscOutHost = settings.getValue("OSC:SENDER:HOST","192.168.1.255");
     int oscOutPort = settings.getValue("OSC:SENDER:PORT",6000);
     sender.setup(oscOutHost,oscOutPort);
@@ -193,7 +198,6 @@ void ofApp::update() {
 //update the bricks' state based on the set state
 switch (state) {
     case REST: {
-        receiver.start(); //receive messages only if we are in REST state
         if (receiver.hasWaitingMessages()){
             ofxOscMessage receivedMessage;
             receiver.getNextMessage(receivedMessage);
@@ -201,14 +205,14 @@ switch (state) {
             
             if (addr.compare("/listener/force") == 0){ //if the OSC address corresponds to /force
                 force = receivedMessage.getArgAsFloat(0); //set the force to the received parameter
-                force = ofClamp(force, 2, 15);
+                force = ofClamp(force, 1.5, 20);
                 state = EXPLODE; //set up the explosion
                 //broadcast the new state
                 ofxOscMessage mess;
                 mess.setAddress("/hexagram/state");
                 mess.addIntArg(state);
                 sender.sendMessage(mess);
-                receiver.stop(); //stop the OSC receiver to avoid double triggering
+                
                 //ofLog(OF_LOG_NOTICE, ofToString(receivedForce));
             }
             else{

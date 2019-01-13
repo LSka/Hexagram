@@ -43,6 +43,8 @@ public:
     float l;
     float oldTime;
     float lightZ;
+    float minForce;
+    float maxForce;
     
     
     ofVideoPlayer bgMovie;

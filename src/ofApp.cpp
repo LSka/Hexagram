@@ -235,7 +235,15 @@ switch (state) {
                 }
             
 
-                if (allOut()){ //check if all bricks are out of the camera range
+                if (allOut()){
+                    if(receiver.hasWaitingMessages()){
+                        ofxOscMessage receivedMessage;
+                        receiver.getNextMessage(receivedMessage);
+                        string addr = receivedMessage.getAddress();
+                        
+                        if (addr.compare("/haiku/done") == 0){
+                            if (receivedMessage.getArgAsTrigger(0)){
+//check if all bricks are out of the camera range
 //we want to randomly choose which of the central bricks will be visible and to define
 //each combination with a number. To do so, we create a 6-bit bitset to store the visibility states as binary digits
                     std::bitset<6> hexa;
@@ -263,15 +271,13 @@ switch (state) {
                                     b->visible = FALSE;
                                     hexa.set(j,0); //set the correspondent bit to FALSE
                                 }
-                                
                             }
                         }
                     }
                     
                     int hexaId = int(hexa.to_ulong()); //convert the bit set to an integer
                     //cout<< hexaId << '\n';
-                    
-
+                                
 //set running state to COMPOSE and report it
                     state = COMPOSE;
                     ofxOscMessage mess;
@@ -279,6 +285,9 @@ switch (state) {
                     mess.addIntArg(state);
                     mess.addIntArg(hexaId);
                     sender.sendMessage(mess);
+                            }
+                        }
+                    }
                 }
         break;
     }

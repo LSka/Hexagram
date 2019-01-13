@@ -236,6 +236,8 @@ switch (state) {
             
 
                 if (allOut()){
+                    
+                    //wait for haiku to finish fading out
                     if(receiver.hasWaitingMessages()){
                         ofxOscMessage receivedMessage;
                         receiver.getNextMessage(receivedMessage);

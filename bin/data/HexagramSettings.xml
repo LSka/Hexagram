@@ -1,5 +1,5 @@
 <BACKGROUND>
-	<TEXTURE>paper.jpg</TEXTURE>
+	<TEXTURE>centro.png</TEXTURE>
 </BACKGROUND>
 <BRICKS>
 	<TEXTUREFOLDER>wood/images</TEXTUREFOLDER>
@@ -7,11 +7,11 @@
 <OSC>
 	<RECEIVER>
 		<PORT>5000</PORT>
-        <MIN>1.5</MIN>
-        <MAX>20</MAX>
+        	<MIN>1.5</MIN>
+        	<MAX>20</MAX>
 	</RECEIVER>
 	<SENDER>
-		<HOST>192.168.1.255</HOST>
+		<HOST>192.168.2.255</HOST>
 		<PORT>6000</PORT>
 	</SENDER>
 </OSC>

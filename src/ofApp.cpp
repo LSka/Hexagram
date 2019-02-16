@@ -301,7 +301,7 @@ switch (state) {
                         b = &bricks[i][j];
 
 //move back the bricks by interpolating their current position with their original position
-                        b->interpolator += 0.00003; //the recomposing speed
+                        b->interpolator += 0.00001; //the recomposing speed
                         b->position = b->position.interpolate(startPositions[i][j],b->interpolator);
                         
                         float distance = b->position.distance(startPositions[i][j]);
